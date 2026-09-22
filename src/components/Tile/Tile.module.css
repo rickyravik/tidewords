@@ -3,14 +3,14 @@
   align-items: center;
   justify-content: center;
   border-radius: 6px;
-  font-family: var(--font-ui);
+  font-family: var(--font-tiles);
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .empty {
   background: var(--tile-empty);
-  border: 2px solid var(--tide);
+  border: 2px solid var(--tile-border);
 }
 
 .filled {

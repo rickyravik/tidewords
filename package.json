@@ -11,7 +11,10 @@
     "typecheck": "tsc -b",
     "test": "vitest run",
     "test:watch": "vitest",
-    "preview": "vite preview --host"
+    "test:e2e": "playwright test",
+    "preview": "vite preview --host",
+    "generate-levels": "tsx scripts/generate-levels.ts",
+    "validate-levels": "tsx scripts/validate-levels.ts"
   },
   "dependencies": {
     "framer-motion": "^13.4.1",
@@ -22,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.56.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@types/howler": "^2.2.13",
@@ -36,9 +40,12 @@
     "globals": "^17.12.0",
     "jsdom": "^30.1.1",
     "prettier": "^3.9.8",
+    "tsx": "^4.23.15",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.70.1",
     "vite": "^8.3.0",
-    "vitest": "^5.0.1"
+    "vite-plugin-pwa": "^1.3.0",
+    "vitest": "^5.0.1",
+    "word-list": "^4.1.0"
   }
 }

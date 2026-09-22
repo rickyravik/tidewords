@@ -8,12 +8,29 @@
 
   --tile-empty: color-mix(in srgb, var(--chalk) 14%, transparent);
   --tile-text: var(--deep-sea);
+  --tile-border: var(--tide); /* empty tile border */
+  --trail-width: 4; /* wheel trail stroke width, thicker under high contrast */
 
   --font-ui: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-heading: 'Young Serif', Georgia, serif;
+  --font-tiles: var(--font-ui); /* tiles and wheel letters only, see data-dyslexia-font below */
 }
 
+/* HANDOVER 9.2: "solid chalk tiles with deep sea borders, no translucency,
+   thicker trail." Scoped to dedicated tokens (--tile-border, --trail-width)
+   rather than overriding --tide itself, so only tiles/trail change and
+   every other panel that reads --tide (wheel stroke, pill background, ...)
+   keeps its normal colour. Needs `document.documentElement.dataset
+   .highContrast` set from settings.highContrast — see the Phase 2 report
+   for who owns wiring that. */
 :root[data-high-contrast='true'] {
   --tile-empty: var(--chalk);
-  --tide: var(--chalk);
+  --tile-border: var(--deep-sea);
+  --trail-width: 7;
+}
+
+/* HANDOVER 9.3: "Optional dyslexia font toggle: OpenDyslexic for tiles and
+   wheel." Scoped to --font-tiles only, so general UI text stays in Lexend. */
+:root[data-dyslexia-font='true'] {
+  --font-tiles: 'OpenDyslexic', var(--font-ui);
 }

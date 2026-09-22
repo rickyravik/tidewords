@@ -20,7 +20,10 @@ export type LevelAction =
   | { type: 'submit'; bonusWordsFound: ReadonlySet<string> }
   | { type: 'shuffle'; random?: () => number }
   | { type: 'reveal'; cellKeys: CellKey[] }
-  | { type: 'clearResult' };
+  | { type: 'clearResult' }
+  // Tap mode's cross/clear button (Section 8) needs to drop the whole
+  // in-progress selection, not just backtrack one letter.
+  | { type: 'clearSelection' };
 
 function shuffled(letters: string[], random: () => number): string[] {
   const copy = [...letters];
@@ -120,6 +123,9 @@ export function levelReducer(state: LevelState, action: LevelAction): LevelState
 
     case 'clearResult':
       return { ...state, lastResult: null };
+
+    case 'clearSelection':
+      return { ...state, selection: [] };
 
     default:
       return state;

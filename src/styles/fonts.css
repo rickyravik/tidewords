@@ -1,0 +1,50 @@
+/*
+ * Self-hosted fonts, so the PWA keeps its type after the app shell is
+ * installed and the device goes offline (see HANDOVER.md section 13).
+ *
+ * Lexend is shipped as a single variable-font file; the two @font-face
+ * blocks below just pin the 400 and 700 static instances that
+ * tokens.css / global.css ask for. See CREDITS.md for licence details.
+ */
+
+@font-face {
+  font-family: 'Lexend';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/lexend-variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Lexend';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/lexend-variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Young Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/youngserif-regular.woff2') format('woff2');
+}
+
+/* Optional dyslexia-friendly font (HANDOVER.md section 9.3), for tiles and
+   the wheel only — see tokens.css's --font-tiles. */
+@font-face {
+  font-family: 'OpenDyslexic';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/opendyslexic-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'OpenDyslexic';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/opendyslexic-700.woff2') format('woff2');
+}

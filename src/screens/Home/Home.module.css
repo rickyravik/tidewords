@@ -1,0 +1,107 @@
+.home {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  height: 100%;
+  padding: 16px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0));
+  text-align: center;
+}
+
+.settingsButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: var(--tide);
+  color: var(--chalk);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 2.25rem;
+  color: var(--chalk);
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--sea-glass);
+}
+
+.playButton {
+  min-height: 64px;
+  min-width: 220px;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 16px;
+  background: var(--brass);
+  color: var(--deep-sea);
+  font-size: 1.25rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.dailyCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  min-width: 220px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: var(--tide);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.chartLink {
+  border: none;
+  background: none;
+  color: var(--sea-glass);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 8px;
+  min-height: 48px;
+}
+
+.dailyLabel {
+  font-weight: 700;
+  font-size: 0.875rem;
+  opacity: 0.85;
+}
+
+.dailyStreak {
+  color: var(--sea-glass);
+}
+
+.settingsButton:focus-visible,
+.playButton:focus-visible,
+.dailyCard:focus-visible,
+.chartLink:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+.settingsButton:focus-visible {
+  outline-color: var(--chalk);
+}

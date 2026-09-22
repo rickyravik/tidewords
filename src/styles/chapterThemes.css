@@ -1,0 +1,42 @@
+/**
+ * Chapter theme overrides (HANDOVER 9.2): each chapter is a new stretch of
+ * coastline with its own colour shift. Only `--deep-sea` (background) and
+ * `--tide` (panels, empty tile borders) change per theme, plus — once art
+ * exists — a background illustration; `--brass`, `--chalk` and `--sea-glass`
+ * stay constant so the game always feels like one product.
+ *
+ * Not imported anywhere yet: add `@import './chapterThemes.css';` to
+ * global.css (see the Phase 2 report) once the Chart/chapter-content agent
+ * is ready to set `data-theme` on the page.
+ */
+
+/* Harbour Mouth — the starting chapter (chapter-01.json): warm, close-in
+   harbour water at dusk. Matches the current default tokens.css palette. */
+[data-theme='harbour'] {
+  --deep-sea: #0f2a3d;
+  --tide: #1f5c6b;
+}
+
+/* Kelp Forest — cooler, deeper green-blue water further from shore. */
+[data-theme='kelp'] {
+  --deep-sea: #0c2b24;
+  --tide: #1f6b4d;
+}
+
+/* Aurora Coast — a cold northern night sky over the water. */
+[data-theme='aurora'] {
+  --deep-sea: #101433;
+  --tide: #3a4f8f;
+}
+
+/* Reef — bright shallow tropical water. */
+[data-theme='reef'] {
+  --deep-sea: #082430;
+  --tide: #0e7c8c;
+}
+
+/* Fjord — steep, slate-grey glacial water. */
+[data-theme='fjord'] {
+  --deep-sea: #171f2b;
+  --tide: #3d5568;
+}

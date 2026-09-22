@@ -1,0 +1,84 @@
+.chart {
+  height: 100%;
+  overflow-y: auto;
+  padding: 24px 16px calc(24px + env(safe-area-inset-bottom, 0));
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  color: var(--chalk);
+  text-align: center;
+}
+
+.message {
+  padding: 24px;
+  text-align: center;
+  color: var(--chalk);
+}
+
+.chapterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  /* Falls back to the shared tokens until a chapter theme stylesheet
+     overrides --deep-sea/--tide per [data-theme] (see this task's report). */
+  background: var(--tide);
+}
+
+.chapterTitle {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  color: var(--chalk);
+}
+
+.levelRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dot {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tile-empty);
+  cursor: pointer;
+  padding: 0;
+}
+
+.dot:disabled {
+  cursor: default;
+}
+
+.dotCompleted {
+  background: var(--sea-glass);
+}
+
+.dotCurrent {
+  background: var(--brass);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brass) 45%, transparent);
+}
+
+.dotLocked {
+  background: color-mix(in srgb, var(--chalk) 6%, transparent);
+  opacity: 0.5;
+}
+
+.dot:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}

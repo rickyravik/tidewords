@@ -1,0 +1,160 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 16px;
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0));
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+}
+
+.backButton {
+  min-height: 48px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--tide);
+  color: var(--chalk);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 4px;
+  border-bottom: 1px solid color-mix(in srgb, var(--chalk) 12%, transparent);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.label {
+  font-weight: 700;
+}
+
+.description {
+  font-size: 0.8125rem;
+  opacity: 0.75;
+}
+
+/* A minimal switch: no visual dependency on colour alone since the aria
+   label and knob position both carry the on/off state. */
+.toggle {
+  flex-shrink: 0;
+  width: 52px;
+  height: 30px;
+  padding: 3px;
+  border: none;
+  border-radius: 999px;
+  background: var(--tide);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.toggleKnob {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--chalk);
+  transition: transform 150ms ease-out;
+}
+
+.toggleOn {
+  background: var(--brass);
+}
+
+.toggleOn .toggleKnob {
+  transform: translateX(22px);
+  background: var(--deep-sea);
+}
+
+.dangerZone {
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.resetButton {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--buoy);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--buoy);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.confirmRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--buoy) 16%, transparent);
+}
+
+.confirmText {
+  margin: 0;
+}
+
+.confirmButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.confirmCancel,
+.confirmYes {
+  flex: 1;
+  min-height: 48px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.confirmCancel {
+  background: var(--tide);
+  color: var(--chalk);
+}
+
+.confirmYes {
+  background: var(--buoy);
+  color: var(--chalk);
+}
+
+.toggle:focus-visible,
+.backButton:focus-visible,
+.resetButton:focus-visible,
+.confirmCancel:focus-visible,
+.confirmYes:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}

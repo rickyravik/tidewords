@@ -1,0 +1,112 @@
+# Offensive or unfair words, one per line, lowercase.
+# Applied as a filter across the whole generator pipeline: any candidate word
+# (root, inflected form, or dictionary entry) that appears here is dropped
+# before it can become a base word, target word, bonus word, or dictionary
+# entry. Seeded with common profanity/slurs plus anything spot-checked as
+# clearly obscure or unfair while reviewing generated output.
+
+# --- profanity ---
+ass
+asses
+bastard
+bitch
+bitches
+bloody
+bugger
+crap
+crappy
+damn
+damned
+fuck
+fucks
+fucked
+fucker
+fuckers
+fucking
+goddamn
+hell
+piss
+pissed
+pisser
+shit
+shits
+shitty
+slut
+sluts
+twat
+whore
+whores
+
+# --- slurs and hateful terms ---
+chink
+coon
+dago
+dyke
+fag
+faggot
+gook
+gyp
+gypped
+homo
+injun
+kike
+negro
+nigger
+nigga
+paki
+retard
+retarded
+spic
+spick
+tranny
+wetback
+wop
+
+# --- crude anatomical / sexual terms ---
+anal
+anus
+boob
+boobs
+cock
+cocks
+cum
+cunt
+dick
+dicks
+jizz
+penis
+poop
+pussy
+rape
+raped
+raper
+sex
+sexy
+tit
+tits
+vagina
+
+# --- obscure or unfair words spotted while reviewing generated output ---
+# (add to this section as spot-checks turn up borderline entries)
+# these are regular -ed/-ing/plural guesses that happen to sit in the
+# word-list dictionary but are archaic, dialectal or simply wrong next to
+# the modern irregular form a player would expect (e.g. "builded" vs "built")
+builded
+bended
+losed
+winned
+waked
+flied
+calfs
+hided
+childs
+gooses
+tooths
+mouses
+foots
+leafs
+wolfs
+spined
+wheats
+deers
+knifes

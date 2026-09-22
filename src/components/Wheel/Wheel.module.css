@@ -7,10 +7,13 @@
 .trail {
   fill: none;
   stroke: var(--brass);
-  stroke-width: 4;
+  stroke-width: var(--trail-width);
   stroke-linecap: round;
   stroke-linejoin: round;
   opacity: 0.85;
+  /* Soft glow (HANDOVER 9.5 "Trail"). Turned off under high contrast below,
+     which asks for no translucency/soft effects. */
+  filter: drop-shadow(0 0 4px var(--brass));
 }
 
 .letterCircle {
@@ -28,9 +31,29 @@
   transform: scale(1.15);
 }
 
+/* Reduced motion (HANDOVER 9.5): keep the brass fill feedback, drop the
+   scale movement. Covers both the OS-level media query (always available)
+   and the in-app setting (needs `data-reduced-motion` set on <html> by
+   whoever wires Settings — see the Phase 2 report). */
+@media (prefers-reduced-motion: reduce) {
+  .letterCircle.selected {
+    transform: none;
+  }
+}
+
+:global(:root[data-reduced-motion='true']) .letterCircle.selected {
+  transform: none;
+}
+
+/* High contrast (HANDOVER 9.2): thicker trail, no soft glow/translucency. */
+:global(:root[data-high-contrast='true']) .trail {
+  opacity: 1;
+  filter: none;
+}
+
 .letterText {
   fill: var(--chalk);
-  font-family: var(--font-ui);
+  font-family: var(--font-tiles);
   font-weight: 700;
   text-anchor: middle;
   dominant-baseline: central;
@@ -39,4 +62,43 @@
 
 .letterText.selected {
   fill: var(--deep-sea);
+}
+
+/* Tap mode (Section 8): tick/cross buttons rendered alongside the wheel. */
+.wheelWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.tapControls {
+  display: flex;
+  gap: 16px;
+}
+
+.tapButton {
+  min-width: 48px;
+  min-height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: var(--tide);
+  color: var(--chalk);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.tapButton:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.tapSubmit {
+  background: var(--sea-glass);
+  color: var(--deep-sea);
+}
+
+.tapButton:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
 }

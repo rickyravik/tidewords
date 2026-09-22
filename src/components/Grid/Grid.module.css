@@ -2,4 +2,6 @@
   display: grid;
   gap: 4px;
   margin: 0 auto;
+  /* Gives the level-complete tile-flip wave (HANDOVER 9.5) real 3D depth. */
+  perspective: 800px;
 }
