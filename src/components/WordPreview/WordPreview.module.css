@@ -1,0 +1,28 @@
+.pill {
+  min-width: 3em;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: var(--tide);
+  color: var(--chalk);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 150ms ease-out;
+}
+
+.found {
+  background: var(--sea-glass);
+  color: var(--deep-sea);
+}
+
+.bonus {
+  background: var(--brass);
+  color: var(--deep-sea);
+}
+
+.invalid {
+  background: var(--buoy);
+}

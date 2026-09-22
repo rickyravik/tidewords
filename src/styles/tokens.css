@@ -1,0 +1,19 @@
+:root {
+  --deep-sea: #0f2a3d; /* base background */
+  --tide: #1f5c6b; /* panels, empty tile borders */
+  --sea-glass: #9cd3c4; /* found words, success */
+  --brass: #d8a93b; /* trail, coins, active letters */
+  --buoy: #e4606d; /* invalid shake, used sparingly */
+  --chalk: #f4f6f1; /* tiles, main text */
+
+  --tile-empty: color-mix(in srgb, var(--chalk) 14%, transparent);
+  --tile-text: var(--deep-sea);
+
+  --font-ui: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Young Serif', Georgia, serif;
+}
+
+:root[data-high-contrast='true'] {
+  --tile-empty: var(--chalk);
+  --tide: var(--chalk);
+}

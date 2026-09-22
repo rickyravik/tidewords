@@ -1,0 +1,28 @@
+.play {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.gridArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 8px;
+  overflow: auto;
+}
+
+.previewArea {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+.wheelArea {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}

@@ -1,0 +1,171 @@
+{
+  "chapter": 1,
+  "title": "Harbour Mouth",
+  "theme": "harbour",
+  "levels": [
+    {
+      "id": "c01-l001",
+      "chapter": 1,
+      "index": 1,
+      "letters": ["B", "O", "A", "T", "S"],
+      "rows": 5,
+      "cols": 5,
+      "words": [
+        { "word": "BOATS", "row": 0, "col": 0, "dir": "across" },
+        { "word": "BAT", "row": 0, "col": 0, "dir": "down" },
+        { "word": "SAT", "row": 0, "col": 4, "dir": "down" },
+        { "word": "OAT", "row": 4, "col": 0, "dir": "across" }
+      ],
+      "bonusWords": ["BOAT", "OATS", "TABS"]
+    },
+    {
+      "id": "c01-l002",
+      "chapter": 1,
+      "index": 2,
+      "letters": ["T", "I", "D", "E", "S"],
+      "rows": 5,
+      "cols": 5,
+      "words": [
+        { "word": "TIDES", "row": 0, "col": 0, "dir": "across" },
+        { "word": "TIE", "row": 0, "col": 0, "dir": "down" },
+        { "word": "SIT", "row": 0, "col": 4, "dir": "down" },
+        { "word": "DIES", "row": 4, "col": 0, "dir": "across" }
+      ],
+      "bonusWords": ["SIDE", "TIED", "DIET", "EDIT", "SITE"]
+    },
+    {
+      "id": "c01-l003",
+      "chapter": 1,
+      "index": 3,
+      "letters": ["C", "R", "A", "N", "E"],
+      "rows": 5,
+      "cols": 5,
+      "words": [
+        { "word": "CRANE", "row": 0, "col": 0, "dir": "across" },
+        { "word": "CAN", "row": 0, "col": 0, "dir": "down" },
+        { "word": "ARC", "row": 0, "col": 2, "dir": "down" },
+        { "word": "EAR", "row": 0, "col": 4, "dir": "down" },
+        { "word": "RACE", "row": 4, "col": 0, "dir": "across" }
+      ],
+      "bonusWords": ["NEAR", "CARE", "ACRE", "CANE"]
+    },
+    {
+      "id": "c01-l004",
+      "chapter": 1,
+      "index": 4,
+      "letters": ["A", "N", "C", "H", "O", "R"],
+      "rows": 5,
+      "cols": 6,
+      "words": [
+        { "word": "ANCHOR", "row": 0, "col": 0, "dir": "across" },
+        { "word": "ARC", "row": 0, "col": 0, "dir": "down" },
+        { "word": "CAN", "row": 0, "col": 2, "dir": "down" },
+        { "word": "OAR", "row": 0, "col": 4, "dir": "down" },
+        { "word": "HORN", "row": 4, "col": 0, "dir": "across" }
+      ],
+      "bonusWords": ["CHAR", "CORN", "RANCH", "ROACH"]
+    },
+    {
+      "id": "c01-l005",
+      "chapter": 1,
+      "index": 5,
+      "letters": ["S", "E", "A", "S", "O", "N"],
+      "rows": 7,
+      "cols": 6,
+      "words": [
+        { "word": "SEASON", "row": 0, "col": 0, "dir": "across" },
+        { "word": "SEA", "row": 0, "col": 0, "dir": "down" },
+        { "word": "SON", "row": 0, "col": 3, "dir": "down" },
+        { "word": "NOSE", "row": 4, "col": 0, "dir": "across" },
+        { "word": "EONS", "row": 6, "col": 0, "dir": "across" }
+      ],
+      "bonusWords": ["SANE", "NOSES"]
+    },
+    {
+      "id": "c01-l006",
+      "chapter": 1,
+      "index": 6,
+      "letters": ["S", "A", "I", "L", "O", "R"],
+      "rows": 10,
+      "cols": 6,
+      "words": [
+        { "word": "SAILOR", "row": 0, "col": 0, "dir": "across" },
+        { "word": "SAIL", "row": 0, "col": 0, "dir": "down" },
+        { "word": "OAR", "row": 0, "col": 4, "dir": "down" },
+        { "word": "SOLAR", "row": 5, "col": 0, "dir": "across" },
+        { "word": "RAILS", "row": 7, "col": 0, "dir": "across" },
+        { "word": "LIAR", "row": 9, "col": 0, "dir": "across" }
+      ],
+      "bonusWords": ["ORAL", "SOIL", "LAIR"]
+    },
+    {
+      "id": "c01-l007",
+      "chapter": 1,
+      "index": 7,
+      "letters": ["D", "N", "H", "D", "A", "E"],
+      "rows": 6,
+      "cols": 6,
+      "words": [
+        { "word": "HAD", "row": 0, "col": 2, "dir": "across" },
+        { "word": "HEN", "row": 0, "col": 2, "dir": "down" },
+        { "word": "HANDED", "row": 2, "col": 0, "dir": "across" },
+        { "word": "HEAD", "row": 2, "col": 0, "dir": "down" },
+        { "word": "DEAN", "row": 2, "col": 3, "dir": "down" },
+        { "word": "DEAD", "row": 2, "col": 5, "dir": "down" }
+      ],
+      "bonusWords": ["HAND", "AND", "END", "DEN", "ADD", "DAD"]
+    },
+    {
+      "id": "c01-l008",
+      "chapter": 1,
+      "index": 8,
+      "letters": ["H", "A", "R", "B", "O", "U", "R"],
+      "rows": 7,
+      "cols": 7,
+      "words": [
+        { "word": "HARBOUR", "row": 0, "col": 0, "dir": "across" },
+        { "word": "ROB", "row": 0, "col": 2, "dir": "down" },
+        { "word": "OUR", "row": 0, "col": 4, "dir": "down" },
+        { "word": "RUB", "row": 0, "col": 6, "dir": "down" },
+        { "word": "HOUR", "row": 4, "col": 0, "dir": "across" },
+        { "word": "BAR", "row": 6, "col": 0, "dir": "across" }
+      ],
+      "bonusWords": ["ROAR", "BOAR"]
+    },
+    {
+      "id": "c01-l009",
+      "chapter": 1,
+      "index": 9,
+      "letters": ["S", "T", "E", "A", "M", "E", "R"],
+      "rows": 6,
+      "cols": 7,
+      "words": [
+        { "word": "STEAMER", "row": 0, "col": 0, "dir": "across" },
+        { "word": "SEAT", "row": 0, "col": 0, "dir": "down" },
+        { "word": "EAT", "row": 0, "col": 2, "dir": "down" },
+        { "word": "MEAT", "row": 0, "col": 4, "dir": "down" },
+        { "word": "RATE", "row": 0, "col": 6, "dir": "down" },
+        { "word": "STEAM", "row": 5, "col": 0, "dir": "across" }
+      ],
+      "bonusWords": ["TEAM", "MATE", "TAME", "STARE"]
+    },
+    {
+      "id": "c01-l010",
+      "chapter": 1,
+      "index": 10,
+      "letters": ["D", "O", "L", "P", "H", "I", "N"],
+      "rows": 8,
+      "cols": 7,
+      "words": [
+        { "word": "DOLPHIN", "row": 0, "col": 0, "dir": "across" },
+        { "word": "DIP", "row": 0, "col": 0, "dir": "down" },
+        { "word": "LION", "row": 0, "col": 2, "dir": "down" },
+        { "word": "HIP", "row": 0, "col": 4, "dir": "down" },
+        { "word": "NIL", "row": 0, "col": 6, "dir": "down" },
+        { "word": "HOLD", "row": 5, "col": 0, "dir": "across" },
+        { "word": "PLOD", "row": 7, "col": 0, "dir": "across" }
+      ],
+      "bonusWords": ["NOD", "LID", "OLD"]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.empty {
+  background: var(--tile-empty);
+  border: 2px solid var(--tide);
+}
+
+.filled {
+  background: var(--chalk);
+  border: 2px solid var(--chalk);
+  color: var(--tile-text);
+}

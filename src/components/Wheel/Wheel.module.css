@@ -1,0 +1,42 @@
+.wheel {
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.trail {
+  fill: none;
+  stroke: var(--brass);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
+
+.letterCircle {
+  fill: var(--tile-empty);
+  stroke: var(--tide);
+  stroke-width: 2;
+  transition:
+    fill 90ms ease-out,
+    transform 90ms ease-out;
+  transform-origin: center;
+}
+
+.letterCircle.selected {
+  fill: var(--brass);
+  transform: scale(1.15);
+}
+
+.letterText {
+  fill: var(--chalk);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+
+.letterText.selected {
+  fill: var(--deep-sea);
+}
