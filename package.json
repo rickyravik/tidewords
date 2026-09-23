@@ -17,6 +17,10 @@
     "validate-levels": "tsx scripts/validate-levels.ts"
   },
   "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/ios": "^8.5.2",
     "framer-motion": "^13.4.1",
     "howler": "^2.2.4",
     "react": "^19.2.8",
@@ -24,6 +28,7 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.5.2",
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.56.1",
     "@testing-library/jest-dom": "^7.0.1",
