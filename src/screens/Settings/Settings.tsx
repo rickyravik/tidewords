@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { isHapticsSupported } from '../../haptics/haptics';
 import { useProfileStore, type Settings as SettingsData } from '../../state/profileStore';
 import styles from './Settings.module.css';
 
@@ -59,6 +60,12 @@ export function Settings({ onBack }: SettingsProps) {
     setConfirmingReset(false);
   };
 
+  // Browsers without the Vibration API (every iPhone browser) can't vibrate,
+  // so a Haptics switch there would do nothing.
+  const visibleToggles = isHapticsSupported()
+    ? TOGGLES
+    : TOGGLES.filter((toggle) => toggle.key !== 'haptics');
+
   return (
     <div className={styles.settings}>
       <div className={styles.header}>
@@ -71,7 +78,7 @@ export function Settings({ onBack }: SettingsProps) {
       </div>
 
       <ul className={styles.list}>
-        {TOGGLES.map(({ key, label, description }) => {
+        {visibleToggles.map(({ key, label, description }) => {
           const on = settings[key];
           return (
             <li key={key} className={styles.row}>
@@ -104,11 +111,7 @@ export function Settings({ onBack }: SettingsProps) {
             Reset progress
           </button>
         ) : (
-          <div
-            className={styles.confirmRow}
-            role="alertdialog"
-            aria-label="Confirm reset progress"
-          >
+          <div className={styles.confirmRow} role="alertdialog" aria-label="Confirm reset progress">
             <p className={styles.confirmText}>
               Reset all progress? Coins, completed levels and the bonus jar can&rsquo;t be
               recovered.

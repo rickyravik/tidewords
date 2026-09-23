@@ -29,45 +29,21 @@ on the same Wi-Fi network.
 
 ## Status
 
-Phase 1 (playable core) is done: 10 hand-written levels, swipe-to-spell wheel, crossword grid,
-coins/bonus jar economy, and progress that survives a reload. See `CLAUDE.md` for what's built
-and what's next.
+Phases 1 to 4 are done: 100 generated levels plus endless levels beyond them, the Chart and a
+daily puzzle, sound, accessibility settings, and an installable offline PWA. See `CLAUDE.md` for
+what's built and what's still open.
 
-## Native builds
+## Installing
 
-The Android and iOS apps are [Capacitor](https://capacitorjs.com/) shells around the same
-production web build (`dist/`), configured in `capacitor.config.ts`. The generated native
-projects live in `android/` and `ios/` and are committed; web assets copied into them are
-gitignored, so run a sync after every web change.
+Tidewords is a PWA for phone and desktop browsers, with no app store builds. Deploy `dist/`
+(from `npm run build`) to any static host over HTTPS; the service worker makes it playable
+offline after the first visit.
 
-| Command               | What it does                                                  |
-| --------------------- | ------------------------------------------------------------- |
-| `npm run cap:sync`    | Build the web app and copy it + plugins into both native apps |
-| `npm run cap:android` | Sync, then open the project in Android Studio                 |
-| `npm run cap:ios`     | Sync, then open the project in Xcode (macOS only)             |
+- **Android (Chrome):** menu → **Install app** (or accept the install prompt).
+- **iPhone / iPad (Safari):** Share → **Add to Home Screen**. iOS browsers don't support the
+  Vibration API, so there are no haptics on iPhone and the Haptics setting is hidden there.
+- **Desktop (Chrome / Edge):** the install icon in the address bar. Wide windows get the side
+  by side grid and wheel layout.
 
-**Android** (any OS): install Android Studio (it brings the SDK and a JDK 21), then
-`npm install && npm run cap:android` and press Run, or build a debug APK from the command line
-with `cd android && ./gradlew assembleDebug`.
-
-**iOS** (macOS only): install Xcode 16+ (no CocoaPods needed — the iOS project uses Swift Package
-Manager), then:
-
-```sh
-npm install
-npm run cap:ios          # opens ios/App/App.xcodeproj
-```
-
-In Xcode, pick the **App** target → Signing & Capabilities → choose your team, then run on a
-device or simulator. Xcode resolves the Capacitor Swift packages on first open.
-
-Native differences from the web build:
-
-- **Haptics** use the `@capacitor/haptics` plugin (a light impact per letter, a success
-  notification for a found word), which is how iOS gets haptics at all. The web build keeps
-  using `navigator.vibrate`. See `src/haptics/haptics.ts`.
-- **No service worker** in the native shell (`src/components/Modal/UpdatePrompt.tsx`): the web
-  build ships inside the app and updates come through the stores.
-- The bundle id is `app.tidewords.game` (placeholder — confirm before the first store upload; it
-  can't change afterwards). Launcher icons and splash screens are renders of
-  `public/icons/icon*.svg`.
+New versions install in the background and show an "update ready" prompt
+(`src/components/Modal/UpdatePrompt.tsx`).

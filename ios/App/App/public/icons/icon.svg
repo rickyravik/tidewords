@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!--
+    Tidewords app icon (original artwork, hand-written SVG).
+    A brass compass rose on a night-time sea chart (HANDOVER.md 9.1). No lettering, so the
+    icon survives a change to the game's name.
+
+    This is the "any" purpose icon: rounded-square background with transparent corners.
+    icon-maskable.svg is the same artwork on a full-bleed square. Everything except the
+    background sits inside a circle of radius 194, within the maskable safe zone (radius
+    204.8 = 40% of 512), so both files share identical motif geometry.
+  -->
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#143449" />
+      <stop offset="1" stop-color="#0B2231" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#D8A93B" stop-opacity="0.32" />
+      <stop offset="0.6" stop-color="#D8A93B" stop-opacity="0.10" />
+      <stop offset="1" stop-color="#D8A93B" stop-opacity="0" />
+    </radialGradient>
+    <clipPath id="tile">
+      <rect width="512" height="512" rx="112" />
+    </clipPath>
+    <!-- One compass point pointing up from the centre: a lit half and a shaded half. -->
+    <g id="cardinal">
+      <path d="M256 78 L216 216 L256 256 Z" fill="#E6BC55" />
+      <path d="M256 78 L296 216 L256 256 Z" fill="#A87B22" />
+    </g>
+    <g id="intercardinal">
+      <path d="M256 124 L226 226 L256 256 Z" fill="#9CD3C4" />
+      <path d="M256 124 L286 226 L256 256 Z" fill="#5F9C8D" />
+    </g>
+  </defs>
+
+  <!-- Night sea with faint chart graticule -->
+  <g clip-path="url(#tile)">
+    <rect width="512" height="512" fill="url(#sea)" />
+    <g stroke="#1F5C6B" stroke-width="2" stroke-opacity="0.55">
+      <path d="M0 64H512M0 128H512M0 192H512M0 320H512M0 384H512M0 448H512" />
+      <path d="M64 0V512M128 0V512M192 0V512M320 0V512M384 0V512M448 0V512" />
+    </g>
+    <path d="M0 256H512M256 0V512" stroke="#1F5C6B" stroke-width="3" stroke-opacity="0.8" />
+  </g>
+
+  <!-- Soft brass glow behind the wheel -->
+  <circle cx="256" cy="256" r="194" fill="url(#glow)" />
+
+  <!-- Compass bezel: outer ring, degree ticks, inner ring -->
+  <circle cx="256" cy="256" r="186" fill="#0F2A3D" fill-opacity="0.55" />
+  <circle cx="256" cy="256" r="186" fill="none" stroke="#D8A93B" stroke-width="14" />
+  <!-- 32 ticks: circumference 2*pi*172 = 1080.7, so a 33.77 period; offset centres a tick on each axis -->
+  <circle cx="256" cy="256" r="172" fill="none" stroke="#D8A93B" stroke-width="10"
+    stroke-dasharray="3 30.77" stroke-dashoffset="1.5" />
+  <circle cx="256" cy="256" r="164" fill="none" stroke="#D8A93B" stroke-width="3" stroke-opacity="0.75" />
+
+  <!-- Rose: sea-glass intercardinals under brass cardinals -->
+  <use href="#intercardinal" transform="rotate(45 256 256)" />
+  <use href="#intercardinal" transform="rotate(135 256 256)" />
+  <use href="#intercardinal" transform="rotate(225 256 256)" />
+  <use href="#intercardinal" transform="rotate(315 256 256)" />
+  <use href="#cardinal" />
+  <use href="#cardinal" transform="rotate(90 256 256)" />
+  <use href="#cardinal" transform="rotate(180 256 256)" />
+  <use href="#cardinal" transform="rotate(270 256 256)" />
+
+  <!-- Chalk pivot, like a painted buoy -->
+  <circle cx="256" cy="256" r="22" fill="#F4F6F1" />
+  <circle cx="256" cy="256" r="8" fill="#0F2A3D" />
+</svg>

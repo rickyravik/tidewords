@@ -76,9 +76,7 @@ export function Play({ level, levelNumber, dailyDate, onComplete, onExit }: Play
   const coins = useProfileStore((s) => s.coins);
   const bonusWordsFound = useProfileStore((s) => s.bonusWordsFound);
   const savedProgress = useProfileStore((s) =>
-    dailyDate
-      ? dailyProgressFor(s.dailyProgress, dailyDate, level.id)
-      : s.levelProgress[level.id],
+    dailyDate ? dailyProgressFor(s.dailyProgress, dailyDate, level.id) : s.levelProgress[level.id],
   );
   const spendCoins = useProfileStore((s) => s.spendCoins);
   const recordBonusWord = useProfileStore((s) => s.recordBonusWord);
@@ -185,7 +183,13 @@ export function Play({ level, levelNumber, dailyDate, onComplete, onExit }: Play
     // profile store synchronously, right when the swipe that found it ends.
     const word = state.selection.map((i) => state.wheelLetters[i]).join('');
     const dictionary = loadedDictionaryWords(); // undefined until loaded: falls back to level.bonusWords
-    const result = classifySubmission(word, level, state.foundWords, bonusWordsFoundSet, dictionary);
+    const result = classifySubmission(
+      word,
+      level,
+      state.foundWords,
+      bonusWordsFoundSet,
+      dictionary,
+    );
     if (result.kind === 'bonus') {
       const { isNew } = recordBonusWord(result.word);
       if (isNew) {
@@ -286,7 +290,9 @@ export function Play({ level, levelNumber, dailyDate, onComplete, onExit }: Play
       {/* Screen-reader-only live region (Section 12): announces each result,
           e.g. "HEAD found. 2 words left.", without changing visible layout. */}
       <div aria-live="polite" className={styles.srOnly}>
-        {revealArmed ? 'Reveal armed. Tap a tile to reveal its word.' : resultAnnouncement(state.lastResult, wordsRemaining)}
+        {revealArmed
+          ? 'Reveal armed. Tap a tile to reveal its word.'
+          : resultAnnouncement(state.lastResult, wordsRemaining)}
       </div>
       {/* Portrait: grid above the controls. Landscape/desktop: grid on the
           left, wheel column (pill, jar, wheel, helpers) on the right. */}

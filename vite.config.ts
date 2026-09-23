@@ -64,8 +64,14 @@ export default defineConfig({
           'A relaxing word wheel crossword puzzle, played as a voyage along a sea chart.',
         theme_color: '#0F2A3D',
         background_color: '#0F2A3D',
+        id: '/',
+        start_url: '/',
+        scope: '/',
         display: 'standalone',
-        orientation: 'portrait',
+        // Phones play in portrait, but tablets and desktops get the
+        // side by side landscape layout, so don't lock the orientation.
+        orientation: 'any',
+        categories: ['games', 'puzzle'],
         icons: [
           { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },

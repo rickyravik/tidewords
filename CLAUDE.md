@@ -21,8 +21,6 @@ tidewords/
     dictionary.json       # shipped corpus: bonus-word lookups + endless level generation
     fonts/                # self-hosted Lexend, Young Serif, OpenDyslexic (woff2)
     icons/                # original compass-rose icon (SVG sources + rendered PNGs)
-  android/ ios/           # Capacitor native projects (`npm run cap:android` / `cap:ios`)
-  capacitor.config.ts
   src/
     game/                 # pure logic, no React, fully unit tested
       types.ts
@@ -48,7 +46,7 @@ tidewords/
     audio/
       sounds.ts            # synthesised Web Audio effects + ambient loop, no bundled audio files
     haptics/
-      haptics.ts            # native Capacitor haptics, navigator.vibrate on the web
+      haptics.ts            # navigator.vibrate (no-op on iOS)
     hooks/
       useReducedMotion.ts    # OS media query + settings.reducedMotion, combined
     motion/
@@ -97,9 +95,6 @@ npm run test:watch        # vitest (watch mode)
 npm run test:e2e          # playwright test (5 scenarios × iPhone 13 / Pixel 5)
 npm run generate-levels   # regenerate all chapter JSON files and public/dictionary.json
 npm run validate-levels   # validate every level currently in public/levels/
-npm run cap:sync          # build, then copy the web app into the native projects
-npm run cap:android       # sync, then open Android Studio
-npm run cap:ios           # sync, then open Xcode (Mac only)
 ```
 
 ## Status
@@ -119,16 +114,17 @@ Phases 1–4 (per `HANDOVER.md` section 16) are built, plus endless levels:
   word. Levels continue on the device past 100 (`src/game/endless.ts`). Chart and Daily screens;
   the daily and Chart replays are played "on the side" and never move the player's progress.
 - **Phase 4 (launch readiness):** PWA manifest + service worker (app shell, first two chapters and
-  the dictionary precached), original icons, self-hosted fonts, Capacitor Android/iOS projects
-  with native haptics, and Playwright e2e tests for section 15's scenarios.
+  the dictionary precached), original icons, self-hosted fonts, iOS home screen meta tags, and
+  Playwright e2e tests for section 15's scenarios.
 
 `src/game/sampleLevel.ts` (the hand-checked HANDED fixture from HANDOVER.md section 6) is kept
 only as a unit-test fixture for `src/game`'s pure logic — it is never shipped as playable content.
 
 ### Open decisions and follow-ups
 
-- Final game name and the store app id (`capacitor.config.ts` uses the placeholder
-  `app.tidewords.game`, which can't change after the first store release).
-- Native builds need Android Studio / Xcode on the owner's machine (see README "Native builds").
+- The app is a PWA only (mobile and desktop browsers), with no app store builds. Capacitor
+  was tried and removed; HANDOVER.md's Capacitor notes are out of date.
+- Final game name.
+- Hosting: any static HTTPS host serving `dist/`.
 - No real Lighthouse run in this environment (manual bundle-size/asset checks only).
 - The daily streak only knows its most recent run, so the calendar strip lights that run only.

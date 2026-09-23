@@ -1,0 +1,1126 @@
+{
+  "chapter": 2,
+  "title": "Kelp Forest",
+  "theme": "kelp",
+  "levels": [
+    {
+      "id": "c02-l001",
+      "chapter": 2,
+      "index": 1,
+      "letters": [
+        "C",
+        "O",
+        "T",
+        "S",
+        "A"
+      ],
+      "rows": 6,
+      "cols": 6,
+      "words": [
+        {
+          "word": "COATS",
+          "row": 3,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "COAST",
+          "row": 1,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "COAT",
+          "row": 1,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "CATS",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "OAT",
+          "row": 2,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "CAT",
+          "row": 3,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "OATS"
+      ]
+    },
+    {
+      "id": "c02-l002",
+      "chapter": 2,
+      "index": 2,
+      "letters": [
+        "I",
+        "D",
+        "C",
+        "E",
+        "R"
+      ],
+      "rows": 7,
+      "cols": 5,
+      "words": [
+        {
+          "word": "CIDER",
+          "row": 4,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "CRIED",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "RIDE",
+          "row": 2,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "RICE",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "RED",
+          "row": 4,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "ICE",
+          "row": 3,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c02-l003",
+      "chapter": 2,
+      "index": 3,
+      "letters": [
+        "B",
+        "K",
+        "A",
+        "E",
+        "R"
+      ],
+      "rows": 7,
+      "cols": 6,
+      "words": [
+        {
+          "word": "BREAK",
+          "row": 3,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "BAKER",
+          "row": 0,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "BEAK",
+          "row": 0,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "BAKE",
+          "row": 1,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "BEAR",
+          "row": 3,
+          "col": 1,
+          "dir": "down"
+        },
+        {
+          "word": "EAR",
+          "row": 5,
+          "col": 0,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c02-l004",
+      "chapter": 2,
+      "index": 4,
+      "letters": [
+        "T",
+        "E",
+        "G",
+        "S",
+        "A"
+      ],
+      "rows": 4,
+      "cols": 6,
+      "words": [
+        {
+          "word": "GATES",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "EAST",
+          "row": 0,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "TEAS",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "GATE",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        },
+        {
+          "word": "TEA",
+          "row": 3,
+          "col": 3,
+          "dir": "across"
+        },
+        {
+          "word": "SEA",
+          "row": 1,
+          "col": 5,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c02-l005",
+      "chapter": 2,
+      "index": 5,
+      "letters": [
+        "A",
+        "T",
+        "M",
+        "S",
+        "P"
+      ],
+      "rows": 4,
+      "cols": 8,
+      "words": [
+        {
+          "word": "STAMP",
+          "row": 0,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "PAST",
+          "row": 0,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "TAPS",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "MAST",
+          "row": 3,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "TAP",
+          "row": 3,
+          "col": 5,
+          "dir": "across"
+        },
+        {
+          "word": "MAP",
+          "row": 1,
+          "col": 7,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "MAPS"
+      ]
+    },
+    {
+      "id": "c02-l006",
+      "chapter": 2,
+      "index": 6,
+      "letters": [
+        "R",
+        "A",
+        "R",
+        "E",
+        "D",
+        "H"
+      ],
+      "rows": 4,
+      "cols": 8,
+      "words": [
+        {
+          "word": "HARDER",
+          "row": 0,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "HEAD",
+          "row": 0,
+          "col": 1,
+          "dir": "down"
+        },
+        {
+          "word": "HARD",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "READ",
+          "row": 0,
+          "col": 6,
+          "dir": "down"
+        },
+        {
+          "word": "RED",
+          "row": 0,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "EAR",
+          "row": 2,
+          "col": 5,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c02-l007",
+      "chapter": 2,
+      "index": 7,
+      "letters": [
+        "M",
+        "E",
+        "D",
+        "A",
+        "S",
+        "L"
+      ],
+      "rows": 5,
+      "cols": 6,
+      "words": [
+        {
+          "word": "MEDALS",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "LEAD",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "SEAL",
+          "row": 2,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "MEAL",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        },
+        {
+          "word": "SEA",
+          "row": 2,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "SAD",
+          "row": 4,
+          "col": 1,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": [
+        "MEDAL",
+        "LEADS",
+        "MEALS"
+      ]
+    },
+    {
+      "id": "c02-l008",
+      "chapter": 2,
+      "index": 8,
+      "letters": [
+        "R",
+        "W",
+        "I",
+        "E",
+        "N",
+        "T"
+      ],
+      "rows": 3,
+      "cols": 8,
+      "words": [
+        {
+          "word": "WINTER",
+          "row": 2,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "TIE",
+          "row": 0,
+          "col": 6,
+          "dir": "down"
+        },
+        {
+          "word": "NET",
+          "row": 0,
+          "col": 4,
+          "dir": "across"
+        },
+        {
+          "word": "NEW",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "WIN",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "WET",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "WINE",
+        "TERN",
+        "WRITE"
+      ]
+    },
+    {
+      "id": "c02-l009",
+      "chapter": 2,
+      "index": 9,
+      "letters": [
+        "D",
+        "T",
+        "E",
+        "N",
+        "U",
+        "H"
+      ],
+      "rows": 6,
+      "cols": 6,
+      "words": [
+        {
+          "word": "HUNTED",
+          "row": 3,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "HUNT",
+          "row": 0,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "TUNE",
+          "row": 1,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "HEN",
+          "row": 3,
+          "col": 0,
+          "dir": "down"
+        },
+        {
+          "word": "NUT",
+          "row": 5,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "NET",
+          "row": 3,
+          "col": 2,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c02-l010",
+      "chapter": 2,
+      "index": 10,
+      "letters": [
+        "S",
+        "E",
+        "A",
+        "C",
+        "S",
+        "L"
+      ],
+      "rows": 5,
+      "cols": 6,
+      "words": [
+        {
+          "word": "SCALES",
+          "row": 1,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SCALE",
+          "row": 0,
+          "col": 1,
+          "dir": "down"
+        },
+        {
+          "word": "CLASS",
+          "row": 0,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "SEAL",
+          "row": 1,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "SEAS",
+          "row": 4,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SEA",
+          "row": 3,
+          "col": 3,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": [
+        "SEALS"
+      ]
+    },
+    {
+      "id": "c02-l011",
+      "chapter": 2,
+      "index": 11,
+      "letters": [
+        "A",
+        "T",
+        "S",
+        "L",
+        "E",
+        "B"
+      ],
+      "rows": 4,
+      "cols": 8,
+      "words": [
+        {
+          "word": "STABLE",
+          "row": 3,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SEAL",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "BELT",
+          "row": 0,
+          "col": 1,
+          "dir": "down"
+        },
+        {
+          "word": "EAST",
+          "row": 1,
+          "col": 4,
+          "dir": "across"
+        },
+        {
+          "word": "SEA",
+          "row": 1,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "TEA",
+          "row": 1,
+          "col": 7,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "SALT",
+        "TALE",
+        "TABLE",
+        "TEAS",
+        "TALES",
+        "BELTS",
+        "TABLES"
+      ]
+    },
+    {
+      "id": "c02-l012",
+      "chapter": 2,
+      "index": 12,
+      "letters": [
+        "S",
+        "T",
+        "U",
+        "O",
+        "M",
+        "H"
+      ],
+      "rows": 8,
+      "cols": 6,
+      "words": [
+        {
+          "word": "MOUTHS",
+          "row": 1,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SOUTH",
+          "row": 1,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "SHOUT",
+          "row": 4,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "MOUTH",
+          "row": 3,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "MOTH",
+          "row": 6,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "HOT",
+          "row": 0,
+          "col": 1,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "MOTHS"
+      ]
+    },
+    {
+      "id": "c02-l013",
+      "chapter": 2,
+      "index": 13,
+      "letters": [
+        "C",
+        "D",
+        "I",
+        "R",
+        "S",
+        "E"
+      ],
+      "rows": 6,
+      "cols": 6,
+      "words": [
+        {
+          "word": "CIDERS",
+          "row": 4,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "CIDER",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "RIDE",
+          "row": 2,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "RICE",
+          "row": 0,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "RED",
+          "row": 2,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "ICE",
+          "row": 3,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "ICES",
+        "RICES",
+        "CRIED",
+        "RIDES",
+        "CRIES"
+      ]
+    },
+    {
+      "id": "c02-l014",
+      "chapter": 2,
+      "index": 14,
+      "letters": [
+        "P",
+        "O",
+        "T",
+        "S",
+        "H",
+        "O"
+      ],
+      "rows": 5,
+      "cols": 7,
+      "words": [
+        {
+          "word": "PHOTOS",
+          "row": 0,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "PHOTO",
+          "row": 0,
+          "col": 1,
+          "dir": "down"
+        },
+        {
+          "word": "SHOP",
+          "row": 0,
+          "col": 6,
+          "dir": "down"
+        },
+        {
+          "word": "HOP",
+          "row": 3,
+          "col": 4,
+          "dir": "across"
+        },
+        {
+          "word": "POT",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "HOT",
+          "row": 4,
+          "col": 0,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": [
+        "HOPS",
+        "POTS"
+      ]
+    },
+    {
+      "id": "c02-l015",
+      "chapter": 2,
+      "index": 15,
+      "letters": [
+        "R",
+        "D",
+        "P",
+        "E",
+        "I",
+        "S"
+      ],
+      "rows": 4,
+      "cols": 8,
+      "words": [
+        {
+          "word": "SPIDER",
+          "row": 3,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "PIER",
+          "row": 0,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "RIDE",
+          "row": 1,
+          "col": 4,
+          "dir": "across"
+        },
+        {
+          "word": "PIES",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        },
+        {
+          "word": "PIE",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "RED",
+          "row": 0,
+          "col": 7,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "PIERS",
+        "RIDES"
+      ]
+    },
+    {
+      "id": "c02-l016",
+      "chapter": 2,
+      "index": 16,
+      "letters": [
+        "V",
+        "S",
+        "I",
+        "D",
+        "R",
+        "E"
+      ],
+      "rows": 6,
+      "cols": 6,
+      "words": [
+        {
+          "word": "DIVERS",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "DRIVE",
+          "row": 1,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "DIVER",
+          "row": 5,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "DIVE",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "RIDE",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "RED",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "DIVES",
+        "RIDES",
+        "DRIVES"
+      ]
+    },
+    {
+      "id": "c02-l017",
+      "chapter": 2,
+      "index": 17,
+      "letters": [
+        "O",
+        "L",
+        "E",
+        "D",
+        "W",
+        "G"
+      ],
+      "rows": 4,
+      "cols": 8,
+      "words": [
+        {
+          "word": "GLOWED",
+          "row": 3,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "GLOW",
+          "row": 0,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "LEG",
+          "row": 1,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "DOG",
+          "row": 0,
+          "col": 3,
+          "dir": "across"
+        },
+        {
+          "word": "OLD",
+          "row": 1,
+          "col": 7,
+          "dir": "down"
+        },
+        {
+          "word": "OWL",
+          "row": 1,
+          "col": 0,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": [
+        "GOLD"
+      ]
+    },
+    {
+      "id": "c02-l018",
+      "chapter": 2,
+      "index": 18,
+      "letters": [
+        "G",
+        "E",
+        "H",
+        "R",
+        "A",
+        "T"
+      ],
+      "rows": 4,
+      "cols": 8,
+      "words": [
+        {
+          "word": "GATHER",
+          "row": 0,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "GATE",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "HAT",
+          "row": 0,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "TEA",
+          "row": 2,
+          "col": 5,
+          "dir": "across"
+        },
+        {
+          "word": "RAT",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "EAR",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "HEART"
+      ]
+    },
+    {
+      "id": "c02-l019",
+      "chapter": 2,
+      "index": 19,
+      "letters": [
+        "A",
+        "E",
+        "E",
+        "W",
+        "K",
+        "R"
+      ],
+      "rows": 6,
+      "cols": 6,
+      "words": [
+        {
+          "word": "WEAKER",
+          "row": 1,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "WEAK",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "WEEK",
+          "row": 3,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "WAKE",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "EAR",
+          "row": 3,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "WAR",
+          "row": 3,
+          "col": 1,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c02-l020",
+      "chapter": 2,
+      "index": 20,
+      "letters": [
+        "O",
+        "R",
+        "B",
+        "O",
+        "S",
+        "M"
+      ],
+      "rows": 8,
+      "cols": 7,
+      "words": [
+        {
+          "word": "BROOMS",
+          "row": 3,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "BROOM",
+          "row": 3,
+          "col": 1,
+          "dir": "down"
+        },
+        {
+          "word": "ROOMS",
+          "row": 5,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "MOORS",
+          "row": 1,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "ROOM",
+          "row": 1,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "MOOR",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    }
+  ]
+}

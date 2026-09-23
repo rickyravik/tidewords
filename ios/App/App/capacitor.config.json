@@ -1,0 +1,14 @@
+{
+	"appId": "app.tidewords.game",
+	"appName": "Tidewords",
+	"webDir": "dist",
+	"backgroundColor": "#0F2A3D",
+	"plugins": {
+		"SystemBars": {
+			"style": "DARK"
+		}
+	},
+	"packageClassList": [
+		"HapticsPlugin"
+	]
+}

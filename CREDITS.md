@@ -7,10 +7,8 @@ be listed here before shipping (see `HANDOVER.md` section 1).
 
 All sound effects (letter ticks, chimes, thud, fanfare) and the ambient music loop are synthesised
 at runtime with the Web Audio API (oscillators + gain envelopes) — see `src/audio/sounds.ts`. No
-audio files are bundled, so there is nothing third-party to list here. On the web, haptics use the
-standard Vibration API directly (`src/haptics/haptics.ts`). In the native iOS/Android builds they
-use [`@capacitor/haptics`](https://github.com/ionic-team/capacitor-plugins) (MIT licence), loaded
-only inside the native shell.
+audio files are bundled, so there is nothing third-party to list here. Haptics use the standard
+Vibration API directly (`src/haptics/haptics.ts`).
 
 ## Fonts
 

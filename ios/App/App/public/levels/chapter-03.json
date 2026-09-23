@@ -1,0 +1,1116 @@
+{
+  "chapter": 3,
+  "title": "Coral Reef",
+  "theme": "reef",
+  "levels": [
+    {
+      "id": "c03-l001",
+      "chapter": 3,
+      "index": 1,
+      "letters": [
+        "N",
+        "A",
+        "B",
+        "E",
+        "N",
+        "R"
+      ],
+      "rows": 7,
+      "cols": 6,
+      "words": [
+        {
+          "word": "BANNER",
+          "row": 3,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "BEAR",
+          "row": 1,
+          "col": 1,
+          "dir": "down"
+        },
+        {
+          "word": "BEAN",
+          "row": 1,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "BARN",
+          "row": 0,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "EARN",
+          "row": 3,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "EAR",
+          "row": 5,
+          "col": 2,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c03-l002",
+      "chapter": 3,
+      "index": 2,
+      "letters": [
+        "S",
+        "N",
+        "V",
+        "R",
+        "E",
+        "A"
+      ],
+      "rows": 6,
+      "cols": 7,
+      "words": [
+        {
+          "word": "RAVENS",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "RAVEN",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "EARN",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SAVE",
+          "row": 2,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "SEA",
+          "row": 5,
+          "col": 4,
+          "dir": "across"
+        },
+        {
+          "word": "EAR",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "EARS",
+        "EARNS"
+      ]
+    },
+    {
+      "id": "c03-l003",
+      "chapter": 3,
+      "index": 3,
+      "letters": [
+        "A",
+        "S",
+        "E",
+        "W",
+        "H",
+        "S"
+      ],
+      "rows": 5,
+      "cols": 6,
+      "words": [
+        {
+          "word": "WASHES",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SAWS",
+          "row": 0,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "WASH",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        },
+        {
+          "word": "SEAS",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SAW",
+          "row": 2,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "SEA",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c03-l004",
+      "chapter": 3,
+      "index": 4,
+      "letters": [
+        "R",
+        "N",
+        "A",
+        "D",
+        "E",
+        "E"
+      ],
+      "rows": 4,
+      "cols": 8,
+      "words": [
+        {
+          "word": "EARNED",
+          "row": 2,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "EARN",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "READ",
+          "row": 0,
+          "col": 3,
+          "dir": "across"
+        },
+        {
+          "word": "DEER",
+          "row": 0,
+          "col": 6,
+          "dir": "down"
+        },
+        {
+          "word": "RED",
+          "row": 1,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "EAR",
+          "row": 1,
+          "col": 0,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c03-l005",
+      "chapter": 3,
+      "index": 5,
+      "letters": [
+        "T",
+        "S",
+        "W",
+        "E",
+        "E",
+        "S"
+      ],
+      "rows": 5,
+      "cols": 8,
+      "words": [
+        {
+          "word": "SWEETS",
+          "row": 2,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "SWEET",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "STEWS",
+          "row": 4,
+          "col": 3,
+          "dir": "across"
+        },
+        {
+          "word": "WEST",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "STEW",
+          "row": 1,
+          "col": 6,
+          "dir": "down"
+        },
+        {
+          "word": "WET",
+          "row": 3,
+          "col": 0,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": [
+        "WESTS"
+      ]
+    },
+    {
+      "id": "c03-l006",
+      "chapter": 3,
+      "index": 6,
+      "letters": [
+        "G",
+        "S",
+        "E",
+        "L",
+        "A",
+        "E"
+      ],
+      "rows": 5,
+      "cols": 7,
+      "words": [
+        {
+          "word": "EAGLES",
+          "row": 4,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "EAGLE",
+          "row": 0,
+          "col": 1,
+          "dir": "down"
+        },
+        {
+          "word": "SEAL",
+          "row": 1,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "GALE",
+          "row": 2,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "SEA",
+          "row": 1,
+          "col": 4,
+          "dir": "across"
+        },
+        {
+          "word": "LEG",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": [
+        "LEGS",
+        "GALES"
+      ]
+    },
+    {
+      "id": "c03-l007",
+      "chapter": 3,
+      "index": 7,
+      "letters": [
+        "S",
+        "H",
+        "L",
+        "A",
+        "E",
+        "W"
+      ],
+      "rows": 5,
+      "cols": 8,
+      "words": [
+        {
+          "word": "WHALES",
+          "row": 4,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "WHALE",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "SEAL",
+          "row": 2,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "WASH",
+          "row": 0,
+          "col": 4,
+          "dir": "across"
+        },
+        {
+          "word": "SEA",
+          "row": 2,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "SAW",
+          "row": 2,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c03-l008",
+      "chapter": 3,
+      "index": 8,
+      "letters": [
+        "H",
+        "S",
+        "N",
+        "T",
+        "C",
+        "A"
+      ],
+      "rows": 7,
+      "cols": 6,
+      "words": [
+        {
+          "word": "CHANTS",
+          "row": 4,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "CHANT",
+          "row": 2,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "CATS",
+          "row": 2,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "CAT",
+          "row": 6,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "ANT",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "HAT",
+          "row": 0,
+          "col": 3,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": [
+        "HATS",
+        "ANTS"
+      ]
+    },
+    {
+      "id": "c03-l009",
+      "chapter": 3,
+      "index": 9,
+      "letters": [
+        "L",
+        "P",
+        "R",
+        "Y",
+        "A",
+        "E"
+      ],
+      "rows": 5,
+      "cols": 8,
+      "words": [
+        {
+          "word": "PLAYER",
+          "row": 1,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "LAYER",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "PEAR",
+          "row": 0,
+          "col": 6,
+          "dir": "down"
+        },
+        {
+          "word": "PLAY",
+          "row": 1,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "EAR",
+          "row": 3,
+          "col": 4,
+          "dir": "across"
+        },
+        {
+          "word": "PEA",
+          "row": 3,
+          "col": 0,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c03-l010",
+      "chapter": 3,
+      "index": 10,
+      "letters": [
+        "S",
+        "P",
+        "A",
+        "I",
+        "N",
+        "T"
+      ],
+      "rows": 4,
+      "cols": 8,
+      "words": [
+        {
+          "word": "PAINTS",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "PAST",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        },
+        {
+          "word": "SPIN",
+          "row": 0,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "ANT",
+          "row": 3,
+          "col": 4,
+          "dir": "across"
+        },
+        {
+          "word": "PAN",
+          "row": 1,
+          "col": 5,
+          "dir": "across"
+        },
+        {
+          "word": "TAP",
+          "row": 3,
+          "col": 0,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": [
+        "PAINT",
+        "ANTS",
+        "PANS",
+        "TAPS"
+      ]
+    },
+    {
+      "id": "c03-l011",
+      "chapter": 3,
+      "index": 11,
+      "letters": [
+        "E",
+        "O",
+        "T",
+        "S",
+        "F",
+        "R"
+      ],
+      "rows": 6,
+      "cols": 6,
+      "words": [
+        {
+          "word": "FOREST",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SOFTER",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "FROST",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        },
+        {
+          "word": "STORE",
+          "row": 5,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "REST",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "SOFT",
+          "row": 2,
+          "col": 2,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c03-l012",
+      "chapter": 3,
+      "index": 12,
+      "letters": [
+        "S",
+        "S",
+        "E",
+        "N",
+        "U",
+        "R"
+      ],
+      "rows": 5,
+      "cols": 6,
+      "words": [
+        {
+          "word": "NURSES",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "NURSE",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        },
+        {
+          "word": "RUNS",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SUNS",
+          "row": 0,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "SUN",
+          "row": 2,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "RUN",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c03-l013",
+      "chapter": 3,
+      "index": 13,
+      "letters": [
+        "T",
+        "L",
+        "A",
+        "S",
+        "F",
+        "O"
+      ],
+      "rows": 5,
+      "cols": 8,
+      "words": [
+        {
+          "word": "FLOATS",
+          "row": 1,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "FLOAT",
+          "row": 0,
+          "col": 1,
+          "dir": "down"
+        },
+        {
+          "word": "SOFT",
+          "row": 1,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "SALT",
+          "row": 0,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "FAST",
+          "row": 3,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "OAT",
+          "row": 2,
+          "col": 5,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": [
+        "OATS"
+      ]
+    },
+    {
+      "id": "c03-l014",
+      "chapter": 3,
+      "index": 14,
+      "letters": [
+        "T",
+        "I",
+        "A",
+        "B",
+        "H",
+        "S"
+      ],
+      "rows": 8,
+      "cols": 7,
+      "words": [
+        {
+          "word": "HABITS",
+          "row": 3,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "HABIT",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "HITS",
+          "row": 0,
+          "col": 6,
+          "dir": "down"
+        },
+        {
+          "word": "BAIT",
+          "row": 2,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "HAT",
+          "row": 5,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "HIT",
+          "row": 5,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "HATS",
+        "BAITS"
+      ]
+    },
+    {
+      "id": "c03-l015",
+      "chapter": 3,
+      "index": 15,
+      "letters": [
+        "T",
+        "W",
+        "E",
+        "S",
+        "R",
+        "O"
+      ],
+      "rows": 6,
+      "cols": 8,
+      "words": [
+        {
+          "word": "TOWERS",
+          "row": 3,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "STEW",
+          "row": 0,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "WEST",
+          "row": 0,
+          "col": 1,
+          "dir": "down"
+        },
+        {
+          "word": "REST",
+          "row": 1,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "ROW",
+          "row": 3,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "WET",
+          "row": 5,
+          "col": 5,
+          "dir": "across"
+        }
+      ],
+      "bonusWords": [
+        "TOWER",
+        "STORE",
+        "ROWS"
+      ]
+    },
+    {
+      "id": "c03-l016",
+      "chapter": 3,
+      "index": 16,
+      "letters": [
+        "S",
+        "A",
+        "A",
+        "P",
+        "S",
+        "T"
+      ],
+      "rows": 5,
+      "cols": 6,
+      "words": [
+        {
+          "word": "PASTAS",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "PASTA",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "PASTS",
+          "row": 4,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "TAPS",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "PAST",
+          "row": 1,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "TAP",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c03-l017",
+      "chapter": 3,
+      "index": 17,
+      "letters": [
+        "R",
+        "T",
+        "H",
+        "O",
+        "N",
+        "E"
+      ],
+      "rows": 5,
+      "cols": 6,
+      "words": [
+        {
+          "word": "THRONE",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "HORN",
+          "row": 1,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "TERN",
+          "row": 4,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "NET",
+          "row": 1,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "HEN",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "HOT",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "NORTH"
+      ]
+    },
+    {
+      "id": "c03-l018",
+      "chapter": 3,
+      "index": 18,
+      "letters": [
+        "L",
+        "S",
+        "E",
+        "P",
+        "A",
+        "P"
+      ],
+      "rows": 5,
+      "cols": 6,
+      "words": [
+        {
+          "word": "APPLES",
+          "row": 0,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "APPLE",
+          "row": 0,
+          "col": 0,
+          "dir": "down"
+        },
+        {
+          "word": "PEAS",
+          "row": 2,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SEAL",
+          "row": 0,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "SEA",
+          "row": 2,
+          "col": 3,
+          "dir": "down"
+        },
+        {
+          "word": "PEA",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c03-l019",
+      "chapter": 3,
+      "index": 19,
+      "letters": [
+        "E",
+        "A",
+        "S",
+        "S",
+        "H",
+        "R"
+      ],
+      "rows": 5,
+      "cols": 6,
+      "words": [
+        {
+          "word": "SHARES",
+          "row": 4,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SHARE",
+          "row": 0,
+          "col": 4,
+          "dir": "down"
+        },
+        {
+          "word": "EARS",
+          "row": 0,
+          "col": 1,
+          "dir": "across"
+        },
+        {
+          "word": "SEAS",
+          "row": 2,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "EAR",
+          "row": 3,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "SEA",
+          "row": 2,
+          "col": 2,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": []
+    },
+    {
+      "id": "c03-l020",
+      "chapter": 3,
+      "index": 20,
+      "letters": [
+        "E",
+        "W",
+        "A",
+        "D",
+        "H",
+        "S"
+      ],
+      "rows": 4,
+      "cols": 8,
+      "words": [
+        {
+          "word": "WASHED",
+          "row": 0,
+          "col": 2,
+          "dir": "across"
+        },
+        {
+          "word": "WASH",
+          "row": 0,
+          "col": 2,
+          "dir": "down"
+        },
+        {
+          "word": "HEAD",
+          "row": 0,
+          "col": 5,
+          "dir": "down"
+        },
+        {
+          "word": "SEA",
+          "row": 1,
+          "col": 0,
+          "dir": "across"
+        },
+        {
+          "word": "SAD",
+          "row": 2,
+          "col": 4,
+          "dir": "across"
+        },
+        {
+          "word": "SAW",
+          "row": 1,
+          "col": 0,
+          "dir": "down"
+        }
+      ],
+      "bonusWords": [
+        "HEADS"
+      ]
+    }
+  ]
+}
