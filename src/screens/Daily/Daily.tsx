@@ -10,6 +10,8 @@ export interface DailyProps {
    * is expected to switch to Play with that level, and to call the profile store's
    * `completeDailyPuzzle(todayDateString())` once that level is completed. */
   onPlayDaily: (levelId: string) => void;
+  /** Optional back navigation to Home. */
+  onBack?: () => void;
 }
 
 const CHAPTER_COUNT = 5;
@@ -38,7 +40,7 @@ function dailyPool(chapters: ChapterPack[]): string[] {
  * The daily puzzle screen (HANDOVER.md section 10 point 5): today's puzzle,
  * streak count, and a calendar strip of the last 7 days.
  */
-export function Daily({ onPlayDaily }: DailyProps) {
+export function Daily({ onPlayDaily, onBack }: DailyProps) {
   const [pool, setPool] = useState<string[] | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const daily = useProfileStore((s) => s.daily);
@@ -83,6 +85,11 @@ export function Daily({ onPlayDaily }: DailyProps) {
 
   return (
     <div className={styles.daily}>
+      {onBack && (
+        <button type="button" className={styles.backButton} onClick={onBack}>
+          Back
+        </button>
+      )}
       <h1 className={styles.title}>Daily puzzle</h1>
 
       <p className={styles.streak}>

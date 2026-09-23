@@ -8,6 +8,8 @@ export interface ChartProps {
    * navigation (see CLAUDE.md / this task's report for how App.tsx should wire this up):
    * the caller is expected to set the profile store's current level and switch to Play. */
   onSelectLevel: (levelId: string) => void;
+  /** Optional back navigation to Home, matching Settings' own back button. */
+  onBack?: () => void;
 }
 
 const CHAPTER_COUNT = 5;
@@ -31,7 +33,7 @@ function BoatMarker() {
  * Tapping a completed or current level replays/resumes it; tapping a locked
  * one does nothing.
  */
-export function Chart({ onSelectLevel }: ChartProps) {
+export function Chart({ onSelectLevel, onBack }: ChartProps) {
   const [chapters, setChapters] = useState<ChapterPack[] | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const currentLevelId = useProfileStore((s) => s.currentLevelId);
@@ -76,7 +78,14 @@ export function Chart({ onSelectLevel }: ChartProps) {
 
   return (
     <div className={styles.chart}>
-      <h1 className={styles.title}>Chart</h1>
+      <div className={styles.header}>
+        <h1 className={styles.title}>Chart</h1>
+        {onBack && (
+          <button type="button" className={styles.backButton} onClick={onBack}>
+            Back
+          </button>
+        )}
+      </div>
       {chapters.map((chapter) => (
         <section key={chapter.chapter} className={styles.chapterSection} data-theme={chapter.theme}>
           <h2 className={styles.chapterTitle}>{chapter.title}</h2>

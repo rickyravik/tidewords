@@ -1,4 +1,5 @@
 .daily {
+  position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -8,6 +9,25 @@
   padding: 24px;
   padding-bottom: max(24px, env(safe-area-inset-bottom, 0));
   text-align: center;
+}
+
+.backButton {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  min-height: 48px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--tide);
+  color: var(--chalk);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.backButton:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
 }
 
 .title {

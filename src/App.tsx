@@ -153,8 +153,8 @@ export function App() {
         />
       )}
       {screen === 'settings' && <Settings onBack={goHome} />}
-      {screen === 'chart' && <Chart onSelectLevel={handleSelectLevel} />}
-      {screen === 'daily' && <Daily onPlayDaily={handlePlayDaily} />}
+      {screen === 'chart' && <Chart onSelectLevel={handleSelectLevel} onBack={goHome} />}
+      {screen === 'daily' && <Daily onPlayDaily={handlePlayDaily} onBack={goHome} />}
       {screen === 'play' && <Play key={level.id} level={level} onComplete={handleComplete} />}
       {screen === 'complete' && (
         <LevelComplete

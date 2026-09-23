@@ -7,12 +7,33 @@
   gap: 28px;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .title {
   margin: 0;
   font-family: var(--font-heading);
   font-size: 1.75rem;
   color: var(--chalk);
-  text-align: center;
+}
+
+.backButton {
+  min-height: 48px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 12px;
+  background: var(--tide);
+  color: var(--chalk);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.backButton:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
 }
 
 .message {
