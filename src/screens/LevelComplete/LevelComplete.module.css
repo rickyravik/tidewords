@@ -41,3 +41,9 @@
   cursor: pointer;
   min-height: 48px;
 }
+
+.streak {
+  margin: 0;
+  font-weight: 600;
+  color: var(--sea-glass);
+}

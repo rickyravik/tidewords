@@ -68,6 +68,7 @@
   border: none;
   border-radius: 12px;
   background: var(--tide);
+  color: var(--chalk);
   font-family: inherit;
   text-align: left;
   cursor: pointer;

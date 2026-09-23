@@ -8,13 +8,16 @@
   text-transform: uppercase;
 }
 
+/* Colours come from the --tile-* tokens (tokens.css). Under high contrast,
+   empty tiles are solid deep sea with a chalk outline and filled tiles are
+   solid chalk with deep sea borders, so the two never look alike. */
 .empty {
   background: var(--tile-empty);
   border: 2px solid var(--tile-border);
 }
 
 .filled {
-  background: var(--chalk);
-  border: 2px solid var(--chalk);
+  background: var(--tile-filled);
+  border: 2px solid var(--tile-filled-border);
   color: var(--tile-text);
 }

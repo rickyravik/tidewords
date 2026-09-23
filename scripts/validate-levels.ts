@@ -49,6 +49,11 @@ function main(): void {
         chapterErrors++;
       }
 
+      if (level.rows > 8 || level.cols > 8) {
+        console.error(`${file} ${level.id}: grid is ${level.rows}x${level.cols} (maximum is 8x8)`);
+        chapterErrors++;
+      }
+
       const errors = findLevelShapeErrors(level);
       for (const error of errors) {
         console.error(`${file} ${level.id}: ${error}`);

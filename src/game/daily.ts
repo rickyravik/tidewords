@@ -47,6 +47,30 @@ function addDays(date: string, delta: number): string {
   return shifted.toISOString().slice(0, 10);
 }
 
+export interface DailyRecord {
+  lastCompletedDate: string | null;
+  streak: number;
+}
+
+/**
+ * The streak after completing the daily on `date`: it continues only if the
+ * previous completion was the day before, otherwise it starts again at 1.
+ */
+export function nextStreak(daily: DailyRecord, date: string): number {
+  return daily.lastCompletedDate === addDays(date, -1) ? daily.streak + 1 : 1;
+}
+
+/**
+ * The streak to show on `today`. It's still alive if the last completion was
+ * today or yesterday (today's puzzle can still extend it); after a missed day
+ * it reads 0 even though `daily.streak` still holds the old run until the
+ * next completion resets it.
+ */
+export function currentStreak(daily: DailyRecord, today: string): number {
+  const last = daily.lastCompletedDate;
+  return last === today || last === addDays(today, -1) ? daily.streak : 0;
+}
+
 export interface CalendarDay {
   date: string;
   isToday: boolean;
@@ -55,18 +79,20 @@ export interface CalendarDay {
 
 /**
  * The last 7 days (oldest first, ending today) for the Daily screen's
- * calendar strip. `SaveData.daily` only remembers the single most recent
- * completion date, not full day-by-day history, so only that one date (when
- * it falls inside this 7-day window) can honestly be marked complete here —
- * the running `streak` count is the reliable total and is shown alongside
- * this strip, not spread across it.
+ * calendar strip. A streak is a run of consecutive days ending on
+ * `lastCompletedDate`, so every day in that run is known to be complete.
+ * `streak` defaults to 1 (just the last completion) when not supplied.
  */
 export function calendarStrip(
   today: string,
-  daily: { lastCompletedDate: string | null },
+  daily: { lastCompletedDate: string | null; streak?: number },
 ): CalendarDay[] {
+  const last = daily.lastCompletedDate;
+  const firstOfRun = last === null ? null : addDays(last, -((daily.streak ?? 1) - 1));
   return Array.from({ length: 7 }, (_, i) => {
     const date = addDays(today, i - 6);
-    return { date, isToday: date === today, completed: daily.lastCompletedDate === date };
+    // "YYYY-MM-DD" strings compare correctly as plain strings.
+    const completed = last !== null && firstOfRun !== null && date >= firstOfRun && date <= last;
+    return { date, isToday: date === today, completed };
   });
 }

@@ -54,3 +54,42 @@ describe('classifySubmission', () => {
     });
   });
 });
+
+describe('classifySubmission with the shipped dictionary', () => {
+  const noneFound = new Set<string>();
+  const noBonusFound = new Set<string>();
+  // DAH is formable from the HANDED wheel but not in the sample level's own
+  // bonus list; ANEW and ZEBRA need letters the wheel doesn't have.
+  const dictionary = new Set(['DAH', 'ANEW', 'HAND', 'ZEBRA', 'HEAD']);
+
+  it('accepts a formable dictionary word missing from the level’s own bonus list', () => {
+    expect(classifySubmission('DAH', SAMPLE_LEVEL, noneFound, noBonusFound, dictionary)).toEqual({
+      kind: 'bonus',
+      word: 'DAH',
+      isNew: true,
+    });
+    expect(classifySubmission('DAH', SAMPLE_LEVEL, noneFound, noBonusFound).kind).toBe('invalid');
+  });
+
+  it('still rejects dictionary words the wheel cannot spell', () => {
+    for (const word of ['ANEW', 'ZEBRA']) {
+      expect(classifySubmission(word, SAMPLE_LEVEL, noneFound, noBonusFound, dictionary)).toEqual({
+        kind: 'invalid',
+      });
+    }
+  });
+
+  it('treats a target as a target even when the dictionary also lists it', () => {
+    expect(classifySubmission('HEAD', SAMPLE_LEVEL, noneFound, noBonusFound, dictionary).kind).toBe(
+      'found',
+    );
+  });
+
+  it('keeps accepting the level’s own bonus words when no dictionary is loaded', () => {
+    expect(classifySubmission('HAND', SAMPLE_LEVEL, noneFound, noBonusFound, undefined)).toEqual({
+      kind: 'bonus',
+      word: 'HAND',
+      isNew: true,
+    });
+  });
+});

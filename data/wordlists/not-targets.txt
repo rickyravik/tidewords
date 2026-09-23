@@ -1,0 +1,131 @@
+# Real words that may be accepted as BONUS words but must never be chosen as
+# a level's TARGET words (read by scripts/lib/wordlist.ts). The target tier is
+# picked by SCOWL size + subtitle frequency, and subtitles inflate a few
+# kinds of token that make poor crossword answers:
+# - apostrophe fragments ("don" from "don't", "hes" from "he's")
+# - interjections and filler noises
+# - names, abbreviations or foreign words that SCOWL also lists in lowercase
+# One word per line, lowercase. Add to it as spot-checks turn things up.
+
+# --- apostrophe fragments / contractions without the apostrophe ---
+don
+hes
+ifs
+ins
+ups
+dos
+mes
+pas
+cos
+ere
+thy
+thee
+
+# --- interjections and noises ---
+aah
+aha
+ahh
+aye
+boo
+bye
+gee
+hey
+hmm
+huh
+nah
+ooh
+ohh
+okay
+oops
+ouch
+phew
+psst
+shh
+ugh
+wow
+woo
+yay
+yeah
+yep
+yup
+nope
+whoa
+yeh
+
+# --- names, abbreviations and foreign words that also appear in lowercase ---
+bob
+cam
+chi
+con
+cox
+ken
+lee
+mas
+non
+pap
+per
+qua
+sic
+via
+matt
+gonna
+gotta
+wanna
+mkay
+pwn
+pwns
+harry
+mike
+peter
+maria
+sally
+patty
+sierra
+mama
+mamma
+madame
+cooper
+hart
+ting
+tong
+theta
+zeta
+
+# --- slang, crude or sensitive: fine to accept as a bonus, not as an answer ---
+kinda
+dunno
+gimme
+butt
+butts
+suck
+sucks
+sucked
+sucker
+suckers
+sucking
+dope
+puke
+puked
+pukes
+puking
+urine
+breast
+breasts
+sissy
+moron
+morons
+babe
+babes
+broads
+gays
+fascist
+fascists
+arouse
+aroused
+arouses
+martin
+mars
+cant
+bum
+bums
+gay

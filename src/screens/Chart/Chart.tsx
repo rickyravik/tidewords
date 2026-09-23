@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { endlessLevelNumber } from '../../game/endless';
 import type { ChapterPack } from '../../game/types';
 import { useProfileStore } from '../../state/profileStore';
 import styles from './Chart.module.css';
@@ -74,7 +75,10 @@ export function Chart({ onSelectLevel, onBack }: ChartProps) {
 
   const completedSet = new Set(completedLevelIds);
   const orderedIds = chapters.flatMap((chapter) => chapter.levels.map((level) => level.id));
-  const currentPosition = Math.max(0, orderedIds.indexOf(currentLevelId));
+  // A player on an endless level (101+) has sailed past every shipped level.
+  const endlessNumber = endlessLevelNumber(currentLevelId);
+  const currentPosition =
+    endlessNumber !== null ? orderedIds.length : Math.max(0, orderedIds.indexOf(currentLevelId));
 
   return (
     <div className={styles.chart}>
@@ -128,6 +132,21 @@ export function Chart({ onSelectLevel, onBack }: ChartProps) {
           </div>
         </section>
       ))}
+      {endlessNumber !== null && (
+        <section className={styles.chapterSection} aria-label="Open water">
+          <h2 className={styles.chapterTitle}>Open water</h2>
+          <p className={styles.openWaterText}>
+            Past the charted coast, every level is new. You&rsquo;re on level {endlessNumber}.
+          </p>
+          <button
+            type="button"
+            className={styles.continueButton}
+            onClick={() => onSelectLevel(currentLevelId)}
+          >
+            Continue level {endlessNumber}
+          </button>
+        </section>
+      )}
     </div>
   );
 }

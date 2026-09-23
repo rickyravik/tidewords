@@ -1,6 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import styles from './App.module.css';
 import { UpdatePrompt } from './components/Modal/UpdatePrompt';
-import { todayDateString } from './game/daily';
+import { loadDictionary } from './game/dictionary';
+import {
+  FIRST_ENDLESS_LEVEL,
+  endlessLevelId,
+  endlessLevelNumber,
+  generateEndlessLevel,
+} from './game/endless';
+import type { WordCorpus } from './game/generator';
 import type { ChapterPack, Level } from './game/types';
 import { Chart } from './screens/Chart/Chart';
 import { Daily } from './screens/Daily/Daily';
@@ -15,6 +23,14 @@ type Screen = 'home' | 'play' | 'complete' | 'settings' | 'chart' | 'daily';
 interface CompleteResult {
   coinsEarned: number;
   bonusWordsFound: number;
+  /** Set when the finished puzzle was the daily: the streak after finishing it. */
+  dailyStreak?: number;
+}
+
+/** The daily puzzle being played: which level, and the date it's the daily for. */
+interface DailyPlay {
+  levelId: string;
+  date: string;
 }
 
 const CHAPTER_COUNT = 5;
@@ -27,11 +43,21 @@ export function App() {
   const [chapters, setChapters] = useState<ChapterPack[] | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [result, setResult] = useState<CompleteResult>({ coinsEarned: 0, bonusWordsFound: 0 });
-  const [isDailyPlay, setIsDailyPlay] = useState(false);
+  // Non-null while the daily is on screen (Play or its complete screen). The
+  // daily is played "on the side": it never changes currentLevelId.
+  const [dailyPlay, setDailyPlay] = useState<DailyPlay | null>(null);
+  // Non-null while replaying an earlier level picked on the Chart. Like the
+  // daily, a replay is played on the side and never moves currentLevelId,
+  // so the player's place on the chart isn't lost.
+  const [replayLevelId, setReplayLevelId] = useState<string | null>(null);
+  // The shipped dictionary doubles as the corpus endless levels (101+) are
+  // generated from on the device. Play loads the same cached promise for
+  // bonus words, so this costs no extra request.
+  const [corpus, setCorpus] = useState<WordCorpus | null>(null);
+  const [corpusFailed, setCorpusFailed] = useState(false);
 
   const currentLevelId = useProfileStore((s) => s.currentLevelId);
   const setCurrentLevel = useProfileStore((s) => s.setCurrentLevel);
-  const completeDailyPuzzle = useProfileStore((s) => s.completeDailyPuzzle);
   const highContrast = useProfileStore((s) => s.settings.highContrast);
   const reducedMotion = useProfileStore((s) => s.settings.reducedMotion);
   const dyslexiaFont = useProfileStore((s) => s.settings.dyslexiaFont);
@@ -86,6 +112,41 @@ export function App() {
     };
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+    void loadDictionary().then((loaded) => {
+      if (cancelled) return;
+      if (loaded) {
+        setCorpus(loaded);
+      } else {
+        setCorpusFailed(true);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // loadDictionary caches a success and allows a fresh attempt after a failure.
+  const retryCorpus = () => {
+    setCorpusFailed(false);
+    void loadDictionary().then((loaded) => {
+      if (loaded) {
+        setCorpus(loaded);
+      } else {
+        setCorpusFailed(true);
+      }
+    });
+  };
+
+  // Generating a level takes tens of milliseconds, so only redo it when the
+  // endless level number or the corpus actually changes.
+  const endlessNumber = endlessLevelNumber(currentLevelId);
+  const endlessLevel = useMemo(
+    () => (endlessNumber !== null && corpus ? generateEndlessLevel(endlessNumber, corpus) : null),
+    [endlessNumber, corpus],
+  );
+
   if (loadError) {
     return <p role="alert">Couldn&rsquo;t load the levels: {loadError}</p>;
   }
@@ -94,50 +155,92 @@ export function App() {
   }
 
   const orderedLevels: Level[] = chapters.flatMap((chapter) => chapter.levels);
-  const currentIndex = Math.max(
-    0,
-    orderedLevels.findIndex((l) => l.id === currentLevelId),
-  );
-  const level = orderedLevels[currentIndex];
-  if (!level) {
+  if (orderedLevels.length === 0) {
     return <p role="alert">No levels are available yet.</p>;
   }
-  const nextLevel = orderedLevels[currentIndex + 1];
 
-  const goHome = () => setScreen('home');
+  // Players see one continuous level number: a shipped level's 1-based
+  // position in the ordered list (the Chart labels its dots the same way),
+  // then endless levels carry on from FIRST_ENDLESS_LEVEL.
+  let currentLevel: Level | null;
+  let currentNumber: number;
+  let nextLevelId: string;
+  if (endlessNumber !== null) {
+    currentLevel = endlessLevel; // null until the corpus has loaded
+    currentNumber = endlessNumber;
+    nextLevelId = endlessLevelId(endlessNumber + 1);
+  } else {
+    const index = Math.max(
+      0,
+      orderedLevels.findIndex((l) => l.id === currentLevelId),
+    );
+    currentLevel = orderedLevels[index] ?? null;
+    currentNumber = index + 1;
+    nextLevelId = orderedLevels[index + 1]?.id ?? endlessLevelId(FIRST_ENDLESS_LEVEL);
+  }
+
+  // What Play shows: the daily's level while playing the daily, an earlier
+  // level while replaying one from the Chart (both always shipped levels),
+  // otherwise the player's own current level.
+  const sideLevelId = dailyPlay?.levelId ?? replayLevelId;
+  const sideIndex = sideLevelId ? orderedLevels.findIndex((l) => l.id === sideLevelId) : -1;
+  const playLevel = sideIndex >= 0 ? (orderedLevels[sideIndex] ?? null) : currentLevel;
+  const playNumber = sideIndex >= 0 ? sideIndex + 1 : currentNumber;
+  const playDailyDate = dailyPlay && sideIndex >= 0 ? dailyPlay.date : undefined;
+  const isReplay = !dailyPlay && replayLevelId !== null && sideIndex >= 0;
+
+  const clearSidePlay = () => {
+    setDailyPlay(null);
+    setReplayLevelId(null);
+  };
+
+  const goHome = () => {
+    clearSidePlay();
+    setScreen('home');
+  };
 
   const handlePlay = () => {
-    setIsDailyPlay(false);
+    clearSidePlay();
     setScreen('play');
   };
 
-  const handlePlayDaily = (levelId: string) => {
-    setCurrentLevel(levelId);
-    setIsDailyPlay(true);
+  const handlePlayDaily = (levelId: string, date: string) => {
+    setReplayLevelId(null);
+    setDailyPlay({ levelId, date });
     setScreen('play');
   };
 
   const handleSelectLevel = (levelId: string) => {
-    setCurrentLevel(levelId);
-    setIsDailyPlay(false);
+    clearSidePlay();
+    // Tapping the boat just continues; tapping any earlier dot replays it.
+    if (levelId !== currentLevelId) {
+      setReplayLevelId(levelId);
+    }
     setScreen('play');
   };
 
   const handleComplete = (coinsEarned: number, bonusWordsFound: number) => {
-    if (isDailyPlay) {
-      completeDailyPuzzle(todayDateString());
-    }
-    setResult({ coinsEarned, bonusWordsFound });
+    // Play has already recorded the completion in the profile store (the
+    // daily via completeDailyPuzzle, a normal level via completeLevel).
+    setResult({
+      coinsEarned,
+      bonusWordsFound,
+      dailyStreak: playDailyDate ? useProfileStore.getState().daily.streak : undefined,
+    });
     setScreen('complete');
   };
 
   const handleNext = () => {
-    if (nextLevel) {
-      setCurrentLevel(nextLevel.id);
-      setIsDailyPlay(false);
-      setScreen('play');
-    } else {
+    if (result.dailyStreak !== undefined) {
       goHome();
+    } else if (isReplay) {
+      clearSidePlay();
+      setScreen('chart');
+    } else {
+      // After the last shipped level this moves on to endless level 101.
+      setCurrentLevel(nextLevelId);
+      clearSidePlay();
+      setScreen('play');
     }
   };
 
@@ -146,6 +249,7 @@ export function App() {
       <UpdatePrompt />
       {screen === 'home' && (
         <Home
+          levelNumber={currentNumber}
           onPlay={handlePlay}
           onSettings={() => setScreen('settings')}
           onChart={() => setScreen('chart')}
@@ -155,14 +259,50 @@ export function App() {
       {screen === 'settings' && <Settings onBack={goHome} />}
       {screen === 'chart' && <Chart onSelectLevel={handleSelectLevel} onBack={goHome} />}
       {screen === 'daily' && <Daily onPlayDaily={handlePlayDaily} onBack={goHome} />}
-      {screen === 'play' && <Play key={level.id} level={level} onComplete={handleComplete} />}
+      {screen === 'play' && playLevel && (
+        <Play
+          key={
+            playDailyDate
+              ? `daily-${playDailyDate}-${playLevel.id}`
+              : isReplay
+                ? `replay-${playLevel.id}`
+                : playLevel.id
+          }
+          level={playLevel}
+          levelNumber={playNumber}
+          dailyDate={playDailyDate}
+          onComplete={handleComplete}
+          onExit={goHome}
+        />
+      )}
+      {screen === 'play' && !playLevel && (
+        // Only reachable for an endless level while the dictionary it's
+        // generated from is still loading, or couldn't be fetched (offline
+        // before it was ever cached).
+        <div className={styles.waiting}>
+          {corpusFailed ? (
+            <>
+              <p role="alert">Couldn&rsquo;t load level {playNumber}. Check your connection.</p>
+              <button type="button" className={styles.button} onClick={retryCorpus}>
+                Try again
+              </button>
+              <button type="button" className={styles.button} onClick={goHome}>
+                Back home
+              </button>
+            </>
+          ) : (
+            <p>Charting level {playNumber}&hellip;</p>
+          )}
+        </div>
+      )}
       {screen === 'complete' && (
         <LevelComplete
-          levelIndex={level.index}
+          levelNumber={playNumber}
+          dailyStreak={result.dailyStreak}
           coinsEarned={result.coinsEarned}
           bonusWordsFound={result.bonusWordsFound}
-          hasNext={Boolean(nextLevel)}
           onNext={handleNext}
+          nextLabel={isReplay ? 'Back to chart' : undefined}
         />
       )}
     </>

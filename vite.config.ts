@@ -16,6 +16,20 @@ const levelsDir = resolve(__dirname, 'public/levels');
  * chapter-NN.json files actually exist on disk at build time, so this
  * keeps working whether chapter-02 has landed yet or not.
  */
+/**
+ * The word dictionary, precached too: bonus-word checks fall back to it and
+ * endless levels (101+) are generated from it, so both need it offline.
+ */
+function dictionaryEntry(): { url: string; revision: string }[] {
+  try {
+    const contents = readFileSync(resolve(__dirname, 'public/dictionary.json'));
+    const revision = createHash('sha256').update(contents).digest('hex').slice(0, 16);
+    return [{ url: '/dictionary.json', revision }];
+  } catch {
+    return [];
+  }
+}
+
 function firstTwoChapterPacks(): { url: string; revision: string }[] {
   let files: string[];
   try {
@@ -55,6 +69,12 @@ export default defineConfig({
         icons: [
           { src: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
           { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+          {
+            src: '/icons/icon-maskable-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
         ],
       },
       workbox: {
@@ -65,7 +85,7 @@ export default defineConfig({
         // them twice) — mainly the self-hosted font files and the SVG
         // favicon.
         globPatterns: ['**/*.{js,css,html,woff2,svg}'],
-        additionalManifestEntries: firstTwoChapterPacks(),
+        additionalManifestEntries: [...firstTwoChapterPacks(), ...dictionaryEntry()],
         runtimeCaching: [
           {
             urlPattern: /\/levels\/chapter-\d+\.json$/,

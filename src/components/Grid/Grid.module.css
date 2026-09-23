@@ -1,5 +1,6 @@
 .grid {
   display: grid;
+  /* Must match GRID_GAP in src/screens/Play/layout.ts (tile-size maths). */
   gap: 4px;
   margin: 0 auto;
   /* Gives the level-complete tile-flip wave (HANDOVER 9.5) real 3D depth. */

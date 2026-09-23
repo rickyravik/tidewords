@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { calendarStrip, hashDateString, pickDailyLevelId, todayDateString } from './daily';
+import {
+  calendarStrip,
+  currentStreak,
+  hashDateString,
+  nextStreak,
+  pickDailyLevelId,
+  todayDateString,
+} from './daily';
 
 describe('hashDateString', () => {
   it('is deterministic for the same date', () => {
@@ -106,5 +113,53 @@ describe('calendarStrip', () => {
       '2026-03-01',
       '2026-03-02',
     ]);
+  });
+});
+
+describe('nextStreak', () => {
+  it('continues the streak when the last completion was yesterday', () => {
+    expect(nextStreak({ lastCompletedDate: '2026-09-21', streak: 4 }, '2026-09-22')).toBe(5);
+  });
+
+  it('continues across a month boundary', () => {
+    expect(nextStreak({ lastCompletedDate: '2026-02-28', streak: 2 }, '2026-03-01')).toBe(3);
+  });
+
+  it('starts again at 1 after a missed day', () => {
+    expect(nextStreak({ lastCompletedDate: '2026-09-20', streak: 6 }, '2026-09-22')).toBe(1);
+  });
+
+  it('starts at 1 on the very first completion', () => {
+    expect(nextStreak({ lastCompletedDate: null, streak: 0 }, '2026-09-22')).toBe(1);
+  });
+});
+
+describe('currentStreak', () => {
+  it('shows the streak when today is already done', () => {
+    expect(currentStreak({ lastCompletedDate: '2026-09-22', streak: 3 }, '2026-09-22')).toBe(3);
+  });
+
+  it('keeps showing it when yesterday was done and today can still extend it', () => {
+    expect(currentStreak({ lastCompletedDate: '2026-09-21', streak: 3 }, '2026-09-22')).toBe(3);
+  });
+
+  it('shows 0 once a day has been missed', () => {
+    expect(currentStreak({ lastCompletedDate: '2026-09-20', streak: 3 }, '2026-09-22')).toBe(0);
+  });
+});
+
+describe('calendarStrip with a streak', () => {
+  it('lights every day of the run ending on the last completion', () => {
+    const days = calendarStrip('2026-09-22', { lastCompletedDate: '2026-09-21', streak: 3 });
+    expect(days.filter((d) => d.completed).map((d) => d.date)).toEqual([
+      '2026-09-19',
+      '2026-09-20',
+      '2026-09-21',
+    ]);
+  });
+
+  it('clips a long run to the 7-day window', () => {
+    const days = calendarStrip('2026-09-22', { lastCompletedDate: '2026-09-22', streak: 30 });
+    expect(days.every((d) => d.completed)).toBe(true);
   });
 });

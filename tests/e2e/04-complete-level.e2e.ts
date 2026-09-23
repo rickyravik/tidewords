@@ -16,5 +16,7 @@ test('finding every target word lands on the level complete screen', async ({ pa
     await swipeWord(page, placed.word);
   }
 
-  await expect(page.getByRole('heading', { name: `Level ${level.index} done` })).toBeVisible();
+  // Players see one continuous level number (position across all chapters),
+  // not the per-chapter `level.index`; the first level of chapter 1 is level 1.
+  await expect(page.getByRole('heading', { name: 'Level 1 done' })).toBeVisible();
 });

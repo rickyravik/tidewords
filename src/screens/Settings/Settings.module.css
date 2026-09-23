@@ -146,7 +146,7 @@
 }
 
 .confirmYes {
-  background: var(--buoy);
+  background: var(--buoy-strong);
   color: var(--chalk);
 }
 

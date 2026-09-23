@@ -9,6 +9,7 @@ import {
   applyDailyStreak,
   canAfford,
 } from '../game/economy';
+import { nextStreak } from '../game/daily';
 import type { CellKey, LevelProgress } from '../game/types';
 
 export interface Settings {
@@ -40,7 +41,21 @@ export interface SaveData {
   bonusJarCount: number;
   bonusWordsFound: string[];
   daily: { lastCompletedDate: string | null; streak: number };
+  /**
+   * The daily puzzle's in-progress state, kept apart from `levelProgress` so
+   * playing the daily never makes that level look "in progress" on the
+   * normal path. Tagged with the date it was started, so a half-finished
+   * daily from an earlier day is simply ignored. Added after v1 shipped:
+   * older saves lack it and pick up the `null` default on load.
+   */
+  dailyProgress: DailyProgress | null;
   settings: Settings;
+}
+
+export interface DailyProgress {
+  date: string;
+  levelId: string;
+  progress: LevelProgress;
 }
 
 const INITIAL_SAVE: SaveData = {
@@ -52,6 +67,7 @@ const INITIAL_SAVE: SaveData = {
   bonusJarCount: 0,
   bonusWordsFound: [],
   daily: { lastCompletedDate: null, streak: 0 },
+  dailyProgress: null,
   settings: DEFAULT_SETTINGS,
 };
 
@@ -61,17 +77,24 @@ interface ProfileActions {
   saveLevelProgress: (levelId: string, progress: LevelProgress) => void;
   completeLevel: (levelId: string) => void;
   recordBonusWord: (word: string) => { isNew: boolean; coinsEarned: number };
-  completeDailyPuzzle: (date: string) => void;
+  saveDailyProgress: (date: string, levelId: string, progress: LevelProgress) => void;
+  /** Pays the daily reward (+ streak bonus) once per date; returns the coins paid. */
+  completeDailyPuzzle: (date: string) => number;
   updateSettings: (patch: Partial<Settings>) => void;
   resetProgress: () => void;
 }
 
 export type ProfileStore = SaveData & ProfileActions;
 
-/** Migrates a persisted save to the current shape. Only version 1 exists so far. */
+/**
+ * Migrates a persisted save to the current shape. Only version 1 exists so
+ * far; fields added to v1 later (e.g. `dailyProgress`) are filled from the
+ * defaults. (For a same-version load, persist's default shallow merge over
+ * the initial state already does the same.)
+ */
 function migrate(persisted: unknown, version: number): SaveData {
   if (version === 1) {
-    return persisted as SaveData;
+    return { ...INITIAL_SAVE, ...(persisted as Partial<SaveData>) };
   }
   return INITIAL_SAVE;
 }
@@ -126,17 +149,23 @@ export const useProfileStore = create<ProfileStore>()(
         return { isNew: true, coinsEarned };
       },
 
-      completeDailyPuzzle: (date) =>
-        set((state) => {
-          if (state.daily.lastCompletedDate === date) {
-            return state;
-          }
-          const streak = state.daily.streak + 1;
-          return {
-            coins: state.coins + DAILY_COMPLETE_COINS + applyDailyStreak(streak),
-            daily: { lastCompletedDate: date, streak },
-          };
-        }),
+      saveDailyProgress: (date, levelId, progress) =>
+        set({ dailyProgress: { date, levelId, progress } }),
+
+      completeDailyPuzzle: (date) => {
+        const state = get();
+        if (state.daily.lastCompletedDate === date) {
+          return 0;
+        }
+        const streak = nextStreak(state.daily, date);
+        const coinsEarned = DAILY_COMPLETE_COINS + applyDailyStreak(streak);
+        set({
+          coins: state.coins + coinsEarned,
+          daily: { lastCompletedDate: date, streak },
+          dailyProgress: null,
+        });
+        return coinsEarned;
+      },
 
       updateSettings: (patch) => set((state) => ({ settings: { ...state.settings, ...patch } })),
 
@@ -149,6 +178,17 @@ export const useProfileStore = create<ProfileStore>()(
     },
   ),
 );
+
+/** The saved daily progress for `levelId` on `date`, if that's the daily in progress. */
+export function dailyProgressFor(
+  dailyProgress: DailyProgress | null,
+  date: string,
+  levelId: string,
+): LevelProgress | undefined {
+  return dailyProgress?.date === date && dailyProgress.levelId === levelId
+    ? dailyProgress.progress
+    : undefined;
+}
 
 export function emptyLevelProgress(): LevelProgress {
   return { foundWords: [], revealedCells: [] };

@@ -65,16 +65,24 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: var(--tile-empty);
+  /* Missed days are a ringed "unlit" dot (--indicator-* tokens), so they
+     stay visible on the page under high contrast too. */
+  background: var(--indicator-empty);
+  border: 2px solid var(--indicator-ring);
   display: block;
 }
 
 .calendarDotCompleted {
   background: var(--sea-glass);
+  border-color: var(--sea-glass);
 }
 
+/* A small gap before the brass ring keeps it distinct from the dot's own
+   ring. */
 .calendarDotToday {
-  box-shadow: 0 0 0 2px var(--brass);
+  box-shadow:
+    0 0 0 2px var(--deep-sea),
+    0 0 0 4px var(--brass);
 }
 
 .calendarLabel {

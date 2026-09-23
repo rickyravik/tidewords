@@ -1,8 +1,19 @@
+/* Layout (HANDOVER 9.4). Sizes of the wheel and tiles are computed in
+   layout.ts from measured boxes; this file only arranges the boxes. */
 .play {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-bottom: env(safe-area-inset-bottom, 0);
+  padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0)
+    env(safe-area-inset-left, 0);
+}
+
+/* Portrait: grid on top taking the leftover height, controls below. */
+.board {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .gridArea {
@@ -10,21 +21,55 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 0;
   min-height: 0;
+  /* Must match GRID_AREA_PADDING in layout.ts. */
   padding: 8px;
   overflow: auto;
 }
 
-.previewArea {
+.controls {
+  flex: none;
   display: flex;
-  justify-content: center;
-  padding: 8px;
+  flex-direction: column;
+}
+
+/* Jar on the left of the pill, pill centred (the 1fr columns stay equal). */
+.previewArea {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 4px 8px;
+}
+
+.jarArea {
+  justify-self: start;
 }
 
 .wheelArea {
   display: flex;
   justify-content: center;
-  padding: 8px;
+  padding: 4px 8px;
+}
+
+/* Landscape and desktop: grid on the left, wheel column on the right, both
+   vertically centred, kept together on very wide screens. */
+.landscape .board {
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.landscape .gridArea {
+  align-self: stretch;
+}
+
+.landscape .controls {
+  justify-content: center;
+  min-width: 300px;
+  padding: 0 8px;
 }
 
 /* Visually hidden but readable by screen readers (Section 12 live region). */
@@ -46,10 +91,4 @@
   text-align: center;
   color: var(--brass);
   font-weight: 600;
-}
-
-.jarArea {
-  display: flex;
-  justify-content: center;
-  padding: 4px 8px 8px;
 }

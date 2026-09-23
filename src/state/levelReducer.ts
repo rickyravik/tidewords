@@ -17,7 +17,9 @@ export interface LevelState {
 
 export type LevelAction =
   | { type: 'select'; index: number }
-  | { type: 'submit'; bonusWordsFound: ReadonlySet<string> }
+  // `dictionary`: the shipped word set once loaded (src/game/dictionary.ts);
+  // omitted, only the level's own bonusWords count as bonus words.
+  | { type: 'submit'; bonusWordsFound: ReadonlySet<string>; dictionary?: ReadonlySet<string> }
   | { type: 'shuffle'; random?: () => number }
   | { type: 'reveal'; cellKeys: CellKey[] }
   | { type: 'clearResult' }
@@ -82,6 +84,7 @@ export function levelReducer(state: LevelState, action: LevelAction): LevelState
         state.level,
         state.foundWords,
         action.bonusWordsFound,
+        action.dictionary,
       );
 
       const foundWords =

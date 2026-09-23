@@ -1,9 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import chapter01 from '../../public/levels/chapter-01.json';
+import chapter02 from '../../public/levels/chapter-02.json';
+import chapter03 from '../../public/levels/chapter-03.json';
+import chapter04 from '../../public/levels/chapter-04.json';
+import chapter05 from '../../public/levels/chapter-05.json';
 import { findLevelShapeErrors } from './levelShape';
-import type { ChapterPack } from './types';
+import type { ChapterPack, Level } from './types';
 
 const pack = chapter01 as ChapterPack;
+const allLevels: Level[] = [chapter01, chapter02, chapter03, chapter04, chapter05].flatMap(
+  (p) => (p as ChapterPack).levels,
+);
 
 describe('chapter-01.json', () => {
   it('has 20 generated levels (scripts/generate-levels.ts)', () => {
@@ -57,5 +64,33 @@ describe('chapter-01.json', () => {
       expect(level.index).toBe(i + 1);
       expect(level.chapter).toBe(1);
     });
+  });
+});
+
+describe('all 100 shipped levels (repetition control in scripts/generate-levels.ts)', () => {
+  it('has 100 levels whose difficulty never decreases across chapters', () => {
+    expect(allLevels).toHaveLength(100);
+    for (let i = 1; i < allLevels.length; i++) {
+      expect(allLevels[i]!.letters.length).toBeGreaterThanOrEqual(allLevels[i - 1]!.letters.length);
+      expect(allLevels[i]!.words.length).toBeGreaterThanOrEqual(allLevels[i - 1]!.words.length);
+    }
+  });
+
+  it('never repeats a base word, and no target word appears in more than 5 levels', () => {
+    const baseWords = allLevels.map(
+      (level) => level.words.reduce((a, b) => (b.word.length > a.word.length ? b : a)).word,
+    );
+    expect(new Set(baseWords).size).toBe(100);
+    const uses = new Map<string, number>();
+    for (const level of allLevels) {
+      for (const { word } of level.words) uses.set(word, (uses.get(word) ?? 0) + 1);
+    }
+    expect(Math.max(...uses.values())).toBeLessThanOrEqual(5);
+  });
+
+  it('gives every level some bonus words to find', () => {
+    for (const level of allLevels) {
+      expect(level.bonusWords.length).toBeGreaterThan(0);
+    }
   });
 });

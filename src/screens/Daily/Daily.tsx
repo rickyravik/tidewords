@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { calendarStrip, pickDailyLevelId, todayDateString } from '../../game/daily';
+import { calendarStrip, currentStreak, pickDailyLevelId, todayDateString } from '../../game/daily';
 import type { ChapterPack } from '../../game/types';
-import { useProfileStore } from '../../state/profileStore';
+import { dailyProgressFor, useProfileStore } from '../../state/profileStore';
 import styles from './Daily.module.css';
 
 export interface DailyProps {
-  /** Called with today's daily level id when the player taps play. The Daily screen doesn't
-   * own navigation (see this task's report for how App.tsx should wire this up): the caller
-   * is expected to switch to Play with that level, and to call the profile store's
-   * `completeDailyPuzzle(todayDateString())` once that level is completed. */
-  onPlayDaily: (levelId: string) => void;
+  /** Called with today's daily level id and date when the player taps play. The caller
+   * opens Play in daily mode for that level (see App.tsx): daily play never moves the
+   * player's `currentLevelId` or `completedLevelIds`, and pays only the daily reward. */
+  onPlayDaily: (levelId: string, date: string) => void;
   /** Optional back navigation to Home. */
   onBack?: () => void;
 }
@@ -31,6 +30,8 @@ function weekdayInitial(date: string): string {
  * section 7.2). Reusing the full generated level set as the pool (rather
  * than a separate dedicated one) keeps this self-contained: no extra file to
  * generate or ship, and 100 levels is already plenty of daily variety.
+ * Only the shipped chapter packs belong here — never levels generated on the
+ * device — or players would stop sharing the same puzzle.
  */
 function dailyPool(chapters: ChapterPack[]): string[] {
   return chapters.flatMap((chapter) => chapter.levels.map((level) => level.id));
@@ -44,6 +45,7 @@ export function Daily({ onPlayDaily, onBack }: DailyProps) {
   const [pool, setPool] = useState<string[] | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
   const daily = useProfileStore((s) => s.daily);
+  const dailyProgress = useProfileStore((s) => s.dailyProgress);
 
   useEffect(() => {
     let cancelled = false;
@@ -81,7 +83,10 @@ export function Daily({ onPlayDaily, onBack }: DailyProps) {
   const today = todayDateString();
   const dailyLevelId = pickDailyLevelId(today, pool);
   const completedToday = daily.lastCompletedDate === today;
+  const inProgressToday =
+    dailyLevelId !== null && dailyProgressFor(dailyProgress, today, dailyLevelId) !== undefined;
   const days = calendarStrip(today, daily);
+  const streak = currentStreak(daily, today);
 
   return (
     <div className={styles.daily}>
@@ -93,9 +98,7 @@ export function Daily({ onPlayDaily, onBack }: DailyProps) {
       <h1 className={styles.title}>Daily puzzle</h1>
 
       <p className={styles.streak}>
-        {daily.streak > 0
-          ? `${daily.streak} day streak`
-          : 'Play today’s puzzle to start a streak'}
+        {streak > 0 ? `${streak} day streak` : 'Play today’s puzzle to start a streak'}
       </p>
 
       <div className={styles.calendar} role="list" aria-label="Last 7 days">
@@ -120,9 +123,13 @@ export function Daily({ onPlayDaily, onBack }: DailyProps) {
         type="button"
         className={styles.playButton}
         disabled={!dailyLevelId || completedToday}
-        onClick={() => dailyLevelId && onPlayDaily(dailyLevelId)}
+        onClick={() => dailyLevelId && onPlayDaily(dailyLevelId, today)}
       >
-        {completedToday ? "Today's puzzle done" : "Play today's puzzle"}
+        {completedToday
+          ? "Today's puzzle done"
+          : inProgressToday
+            ? "Continue today's puzzle"
+            : "Play today's puzzle"}
       </button>
     </div>
   );

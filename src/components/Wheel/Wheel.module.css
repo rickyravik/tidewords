@@ -16,18 +16,25 @@
   filter: drop-shadow(0 0 4px var(--brass));
 }
 
+/* Colours come from the --wheel-letter-* tokens (tokens.css), which switch
+   to solid, outlined circles under high contrast. */
 .letterCircle {
-  fill: var(--tile-empty);
-  stroke: var(--tide);
-  stroke-width: 2;
+  fill: var(--wheel-letter-fill);
+  stroke: var(--wheel-letter-stroke);
+  stroke-width: var(--wheel-letter-stroke-width);
   transition:
     fill 90ms ease-out,
     transform 90ms ease-out;
+  /* fill-box: scale around the circle's own centre. The SVG default
+     (view-box) scaled it around the wheel's centre, so a selected circle
+     drifted off its letter and could be clipped at the wheel's edge. */
+  transform-box: fill-box;
   transform-origin: center;
 }
 
 .letterCircle.selected {
-  fill: var(--brass);
+  fill: var(--wheel-letter-selected-fill);
+  stroke: var(--wheel-letter-selected-stroke);
   transform: scale(1.15);
 }
 
@@ -52,7 +59,7 @@
 }
 
 .letterText {
-  fill: var(--chalk);
+  fill: var(--wheel-letter-text);
   font-family: var(--font-tiles);
   font-weight: 700;
   text-anchor: middle;
@@ -61,7 +68,7 @@
 }
 
 .letterText.selected {
-  fill: var(--deep-sea);
+  fill: var(--wheel-letter-selected-text);
 }
 
 /* Tap mode (Section 8): tick/cross buttons rendered alongside the wheel. */
@@ -96,6 +103,12 @@
 .tapSubmit {
   background: var(--sea-glass);
   color: var(--deep-sea);
+}
+
+/* High contrast: a chalk outline so the button edge reads against the page,
+   not just its glyph (tide on deep sea is only about 2:1). */
+:global(:root[data-high-contrast='true']) .tapButton {
+  box-shadow: inset 0 0 0 2px var(--chalk);
 }
 
 .tapButton:focus-visible {

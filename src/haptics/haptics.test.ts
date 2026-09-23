@@ -1,5 +1,21 @@
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { isHapticsSupported, vibrateLetterSelect, vibrateSuccess } from './haptics';
+
+const native = vi.hoisted(() => ({
+  isNativePlatform: vi.fn(() => false),
+  impact: vi.fn(() => Promise.resolve()),
+  notification: vi.fn(() => Promise.resolve()),
+}));
+
+vi.mock('@capacitor/core', () => ({
+  Capacitor: { isNativePlatform: native.isNativePlatform },
+}));
+
+vi.mock('@capacitor/haptics', () => ({
+  Haptics: { impact: native.impact, notification: native.notification },
+  ImpactStyle: { Heavy: 'HEAVY', Medium: 'MEDIUM', Light: 'LIGHT' },
+  NotificationType: { Success: 'SUCCESS', Warning: 'WARNING', Error: 'ERROR' },
+}));
 
 function withVibrate(fn: ((pattern: number | number[]) => boolean) | undefined) {
   const original = Object.getOwnPropertyDescriptor(navigator, 'vibrate');
@@ -71,6 +87,73 @@ describe('vibrateLetterSelect / vibrateSuccess', () => {
     });
     try {
       expect(() => vibrateLetterSelect()).not.toThrow();
+    } finally {
+      restore();
+    }
+  });
+});
+
+describe('native (Capacitor) haptics', () => {
+  beforeEach(() => {
+    native.isNativePlatform.mockReturnValue(true);
+  });
+
+  afterEach(() => {
+    native.isNativePlatform.mockReset();
+    native.isNativePlatform.mockReturnValue(false);
+    native.impact.mockClear();
+    native.notification.mockClear();
+  });
+
+  it('reports haptics as supported even without navigator.vibrate (iOS)', () => {
+    const restore = withVibrate(undefined);
+    try {
+      expect(isHapticsSupported()).toBe(true);
+    } finally {
+      restore();
+    }
+  });
+
+  it('plays a light impact per letter instead of navigator.vibrate', async () => {
+    const vibrate = vi.fn();
+    const restore = withVibrate(vibrate);
+    try {
+      vibrateLetterSelect();
+      await vi.waitFor(() => expect(native.impact).toHaveBeenCalledWith({ style: 'LIGHT' }));
+      expect(vibrate).not.toHaveBeenCalled();
+    } finally {
+      restore();
+    }
+  });
+
+  it('plays a success notification for a found word', async () => {
+    vibrateSuccess();
+    await vi.waitFor(() => expect(native.notification).toHaveBeenCalledWith({ type: 'SUCCESS' }));
+    expect(native.impact).not.toHaveBeenCalled();
+  });
+
+  it('swallows plugin failures (no throw, no unhandled rejection)', async () => {
+    native.impact.mockRejectedValueOnce(new Error('not implemented'));
+    native.notification.mockImplementationOnce(() => {
+      throw new Error('bridge gone');
+    });
+    expect(() => vibrateLetterSelect()).not.toThrow();
+    expect(() => vibrateSuccess()).not.toThrow();
+    await vi.waitFor(() => {
+      expect(native.impact).toHaveBeenCalled();
+      expect(native.notification).toHaveBeenCalled();
+    });
+  });
+
+  it('falls back to the web path if the platform check itself throws', () => {
+    native.isNativePlatform.mockImplementation(() => {
+      throw new Error('no bridge');
+    });
+    const vibrate = vi.fn();
+    const restore = withVibrate(vibrate);
+    try {
+      vibrateLetterSelect();
+      expect(vibrate).toHaveBeenCalledWith(10);
     } finally {
       restore();
     }

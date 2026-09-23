@@ -1,3 +1,4 @@
+import { Capacitor } from '@capacitor/core';
 import { useRegisterSW } from 'virtual:pwa-register/react';
 import styles from './UpdatePrompt.module.css';
 
@@ -10,8 +11,20 @@ import styles from './UpdatePrompt.module.css';
  *
  * It renders nothing until an update is actually waiting, so it is safe to
  * mount unconditionally.
+ *
+ * In the Capacitor native shell it renders nothing and never registers the
+ * service worker: the app ships its web build inside the binary and updates
+ * through the stores, so a service worker could only serve a stale cached
+ * build after an app update (and WKWebView rejects registration anyway).
  */
 export function UpdatePrompt() {
+  if (Capacitor.isNativePlatform()) {
+    return null;
+  }
+  return <ServiceWorkerUpdatePrompt />;
+}
+
+function ServiceWorkerUpdatePrompt() {
   const {
     needRefresh: [needRefresh, setNeedRefresh],
     updateServiceWorker,

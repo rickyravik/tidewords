@@ -3,12 +3,10 @@
   --tide: #1f5c6b; /* panels, empty tile borders */
   --sea-glass: #9cd3c4; /* found words, success */
   --brass: #d8a93b; /* trail, coins, active letters */
-  --buoy: #e4606d; /* invalid shake, used sparingly */
+  --buoy: #e8707c; /* invalid shake, used sparingly: as text/borders on --deep-sea (4.96:1) */
+  --buoy-strong: #c23f4d; /* filled buoy backgrounds under --chalk text (4.69:1) */
   --chalk: #f4f6f1; /* tiles, main text */
 
-  --tile-empty: color-mix(in srgb, var(--chalk) 14%, transparent);
-  --tile-text: var(--deep-sea);
-  --tile-border: var(--tide); /* empty tile border */
   --trail-width: 4; /* wheel trail stroke width, thicker under high contrast */
 
   --font-ui: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -16,17 +14,61 @@
   --font-tiles: var(--font-ui); /* tiles and wheel letters only, see data-dyslexia-font below */
 }
 
+/* Derived tokens. Also declared on [data-theme] because a custom property
+   that uses var() is resolved where it is declared: without this a themed
+   chapter section (Chart) would still mix in the default --tide/--deep-sea.
+   Contrast figures are WCAG ratios against --deep-sea in every chapter theme. */
+:root,
+[data-theme] {
+  /* Grid tiles */
+  --tile-empty: color-mix(in srgb, var(--chalk) 14%, transparent);
+  --tile-border: color-mix(in srgb, var(--chalk) 30%, var(--tide)); /* >= 3.9:1 */
+  --tile-filled: var(--chalk);
+  --tile-filled-border: var(--chalk);
+  --tile-text: var(--deep-sea);
+
+  /* Wheel letters. Separate from --tile-* because under high contrast the
+     grid tiles turn solid chalk, while the wheel's chalk letters need a
+     solid dark circle behind them. */
+  --wheel-letter-fill: color-mix(in srgb, var(--chalk) 14%, transparent);
+  --wheel-letter-stroke: color-mix(in srgb, var(--chalk) 30%, var(--tide)); /* >= 3.9:1 */
+  --wheel-letter-stroke-width: 2;
+  --wheel-letter-text: var(--chalk);
+  --wheel-letter-selected-fill: var(--brass);
+  --wheel-letter-selected-stroke: var(--brass);
+  --wheel-letter-selected-text: var(--deep-sea);
+
+  /* Empty indicator dots: bonus jar slots, unplayed chart levels and missed
+     daily calendar days. The ring keeps them visible on any background. */
+  --indicator-empty: color-mix(in srgb, var(--chalk) 14%, transparent);
+  --indicator-ring: color-mix(
+    in srgb,
+    var(--chalk) 75%,
+    transparent
+  ); /* >= 3.2:1 on any chapter panel */
+}
+
 /* HANDOVER 9.2: "solid chalk tiles with deep sea borders, no translucency,
-   thicker trail." Scoped to dedicated tokens (--tile-border, --trail-width)
-   rather than overriding --tide itself, so only tiles/trail change and
-   every other panel that reads --tide (wheel stroke, pill background, ...)
-   keeps its normal colour. Needs `document.documentElement.dataset
-   .highContrast` set from settings.highContrast — see the Phase 2 report
-   for who owns wiring that. */
-:root[data-high-contrast='true'] {
-  --tile-empty: var(--chalk);
-  --tile-border: var(--deep-sea);
+   thicker trail." Found tiles are solid chalk with deep sea borders. Empty
+   tiles become solid deep sea with a chalk outline: if both were solid chalk
+   an empty slot would look like a found letter. Wheel letters get a solid
+   deep sea circle with a chalk ring, so chalk letters never sit on chalk.
+   --tide itself is not overridden, so panels that read it (pill, buttons,
+   chart sections) keep their colour. App.tsx sets data-high-contrast. */
+:root[data-high-contrast='true'],
+:root[data-high-contrast='true'] [data-theme] {
+  --tile-empty: var(--deep-sea);
+  --tile-border: var(--chalk);
+  --tile-filled-border: var(--deep-sea);
   --trail-width: 7;
+
+  --wheel-letter-fill: var(--deep-sea);
+  --wheel-letter-stroke: var(--chalk);
+  --wheel-letter-stroke-width: 3;
+  --wheel-letter-selected-stroke: var(--chalk);
+
+  --indicator-empty: var(--deep-sea);
+  --indicator-ring: var(--chalk);
 }
 
 /* HANDOVER 9.3: "Optional dyslexia font toggle: OpenDyslexic for tiles and

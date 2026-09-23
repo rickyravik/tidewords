@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import {
   playBonus,
   playFound,
@@ -8,6 +8,8 @@ import {
   setSoundEnabled,
 } from '../../audio/sounds';
 import { BonusJar } from '../../components/BonusJar/BonusJar';
+import { FirstSwipeGuide } from '../../components/FirstSwipeGuide/FirstSwipeGuide';
+import { isFirstPlay, pickGuideWord } from '../../components/FirstSwipeGuide/firstSwipe';
 import { Grid } from '../../components/Grid/Grid';
 import { HelperButtons } from '../../components/HelperButtons/HelperButtons';
 import { TopBar } from '../../components/TopBar/TopBar';
@@ -17,13 +19,20 @@ import { HINT_COST, LEVEL_COMPLETE_COINS, REVEAL_COST } from '../../game/economy
 import { vibrateSuccess } from '../../haptics/haptics';
 import { pickHintCell, revealWord } from '../../game/hints';
 import { classifySubmission } from '../../game/validate';
+import { loadDictionary, loadedDictionaryWords } from '../../game/dictionary';
 import type { Level, SubmitResult } from '../../game/types';
 import { cellKey } from '../../game/types';
 import { useReducedMotionPreference } from '../../hooks/useReducedMotion';
 import { LEVEL_COMPLETE_FLIP_MS } from '../../motion/timings';
-import { progressFromLevelState, useProfileStore } from '../../state/profileStore';
+import {
+  dailyProgressFor,
+  progressFromLevelState,
+  useProfileStore,
+} from '../../state/profileStore';
 import { initLevelState, levelReducer } from '../../state/levelReducer';
+import { fitTileSize, isLandscape, TAP_CONTROLS_HEIGHT, wheelSize } from './layout';
 import styles from './Play.module.css';
+import { useElementSize } from './useElementSize';
 
 const RESULT_DISPLAY_MS = 700;
 
@@ -50,17 +59,33 @@ function resultAnnouncement(result: SubmitResult | null, remaining: number): str
 
 export interface PlayProps {
   level: Level;
+  /** The player-facing level number: 1-based position across all chapters. */
+  levelNumber: number;
+  /**
+   * Set (to the "YYYY-MM-DD" the daily was started on) when playing the
+   * daily puzzle. Daily play saves to `dailyProgress`, pays only the daily
+   * reward, and never touches `completedLevelIds` or `levelProgress`.
+   */
+  dailyDate?: string;
   onComplete: (coinsEarned: number, bonusWordsFoundThisLevel: number) => void;
+  /** Leaves the level for Home (the top bar's Home button). */
+  onExit?: () => void;
 }
 
-export function Play({ level, onComplete }: PlayProps) {
+export function Play({ level, levelNumber, dailyDate, onComplete, onExit }: PlayProps) {
   const coins = useProfileStore((s) => s.coins);
   const bonusWordsFound = useProfileStore((s) => s.bonusWordsFound);
-  const savedProgress = useProfileStore((s) => s.levelProgress[level.id]);
+  const savedProgress = useProfileStore((s) =>
+    dailyDate
+      ? dailyProgressFor(s.dailyProgress, dailyDate, level.id)
+      : s.levelProgress[level.id],
+  );
   const spendCoins = useProfileStore((s) => s.spendCoins);
   const recordBonusWord = useProfileStore((s) => s.recordBonusWord);
   const saveLevelProgress = useProfileStore((s) => s.saveLevelProgress);
   const completeLevel = useProfileStore((s) => s.completeLevel);
+  const saveDailyProgress = useProfileStore((s) => s.saveDailyProgress);
+  const completeDailyPuzzle = useProfileStore((s) => s.completeDailyPuzzle);
   const soundOn = useProfileStore((s) => s.settings.sound);
   const musicOn = useProfileStore((s) => s.settings.music);
   const hapticsOn = useProfileStore((s) => s.settings.haptics);
@@ -88,8 +113,13 @@ export function Play({ level, onComplete }: PlayProps) {
   // arms picking mode, coins are spent once a grid tile is actually tapped
   // (see handleReveal / handleCellClick below).
   const [revealArmed, setRevealArmed] = useState(false);
+  // First-launch hand (HANDOVER 10): decided once on mount from the saved
+  // profile, then removed after the first correct word (see guideWord below).
+  const [firstPlay] = useState(() => !dailyDate && isFirstPlay(useProfileStore.getState()));
+  const wheelAreaRef = useRef<HTMLDivElement>(null);
 
   const bonusWordsFoundSet = useMemo(() => new Set(bonusWordsFound), [bonusWordsFound]);
+  useEffect(() => void loadDictionary(), []); // fetched once, cached for every level
 
   // Save after every found word (and every reveal), so closing mid level loses nothing.
   // Skips the write while there's nothing to save yet: writing an empty
@@ -99,9 +129,22 @@ export function Play({ level, onComplete }: PlayProps) {
   // presence of a levelProgress entry as "not a first launch").
   useEffect(() => {
     if (!state.isComplete && (state.foundWords.size > 0 || state.revealedCells.size > 0)) {
-      saveLevelProgress(level.id, progressFromLevelState(state.foundWords, state.revealedCells));
+      const progress = progressFromLevelState(state.foundWords, state.revealedCells);
+      if (dailyDate) {
+        saveDailyProgress(dailyDate, level.id, progress);
+      } else {
+        saveLevelProgress(level.id, progress);
+      }
     }
-  }, [level.id, state.foundWords, state.revealedCells, state.isComplete, saveLevelProgress]);
+  }, [
+    level.id,
+    dailyDate,
+    state.foundWords,
+    state.revealedCells,
+    state.isComplete,
+    saveLevelProgress,
+    saveDailyProgress,
+  ]);
 
   useEffect(() => {
     if (!state.lastResult) {
@@ -115,8 +158,14 @@ export function Play({ level, onComplete }: PlayProps) {
     if (!state.isComplete) {
       return;
     }
-    const alreadyCompleted = useProfileStore.getState().completedLevelIds.includes(level.id);
-    completeLevel(level.id);
+    let coinsEarned: number;
+    if (dailyDate) {
+      coinsEarned = completeDailyPuzzle(dailyDate);
+    } else {
+      const alreadyCompleted = useProfileStore.getState().completedLevelIds.includes(level.id);
+      completeLevel(level.id);
+      coinsEarned = alreadyCompleted ? 0 : LEVEL_COMPLETE_COINS;
+    }
     if (useProfileStore.getState().settings.sound) {
       playLevelComplete();
     }
@@ -126,10 +175,7 @@ export function Play({ level, onComplete }: PlayProps) {
     // split between this delay and LevelComplete.tsx's own entrance).
     // Reduced motion skips the wave, so hand off immediately.
     const handoffDelay = reduceMotion ? 0 : LEVEL_COMPLETE_FLIP_MS;
-    const timer = setTimeout(
-      () => onComplete(alreadyCompleted ? 0 : LEVEL_COMPLETE_COINS, bonusFoundThisLevel),
-      handoffDelay,
-    );
+    const timer = setTimeout(() => onComplete(coinsEarned, bonusFoundThisLevel), handoffDelay);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.isComplete]);
@@ -138,7 +184,8 @@ export function Play({ level, onComplete }: PlayProps) {
     // Classify here (not in an effect) so we can credit a bonus word to the
     // profile store synchronously, right when the swipe that found it ends.
     const word = state.selection.map((i) => state.wheelLetters[i]).join('');
-    const result = classifySubmission(word, level, state.foundWords, bonusWordsFoundSet);
+    const dictionary = loadedDictionaryWords(); // undefined until loaded: falls back to level.bonusWords
+    const result = classifySubmission(word, level, state.foundWords, bonusWordsFoundSet, dictionary);
     if (result.kind === 'bonus') {
       const { isNew } = recordBonusWord(result.word);
       if (isNew) {
@@ -157,7 +204,7 @@ export function Play({ level, onComplete }: PlayProps) {
     } else if (result.kind === 'invalid') {
       if (soundOn) playInvalid();
     }
-    dispatch({ type: 'submit', bonusWordsFound: bonusWordsFoundSet });
+    dispatch({ type: 'submit', bonusWordsFound: bonusWordsFoundSet, dictionary });
   };
 
   const handleShuffle = () => dispatch({ type: 'shuffle' });
@@ -173,8 +220,8 @@ export function Play({ level, onComplete }: PlayProps) {
   };
 
   // Arms/disarms tile-picking; coins are spent in handleCellClick, once the
-  // player actually chooses a tile (keeps the button disabled-when-unaffordable
-  // behaviour in HelperButtons unchanged — see coins < REVEAL_COST there).
+  // player actually chooses a tile. HelperButtons only calls this when Reveal
+  // is affordable (or armed); otherwise it explains the shortfall itself.
   const handleReveal = () => {
     if (revealArmed) {
       setRevealArmed(false);
@@ -203,63 +250,104 @@ export function Play({ level, onComplete }: PlayProps) {
     state.selection.length > 0 ? liveWord : state.lastResult ? state.lastWord : '';
   const displayResultKind = state.selection.length > 0 ? null : state.lastResult?.kind;
 
-  // Grid tile size is calculated to fit the available area, capped at 56px:
-  // the taller or wider a level's grid, the smaller its tiles need to be.
-  const tileSize = Math.min(56, Math.floor(320 / Math.max(level.rows, level.cols)));
+  // Layout (HANDOVER 9.4): the wheel is sized from the whole Play screen, then
+  // the grid's tiles fit whatever area is actually left over (capped at 56px).
+  // Without ResizeObserver (jsdom) fall back to the window / a width-only guess.
+  const [playRef, playSize] = useElementSize<HTMLDivElement>();
+  const [gridAreaRef, gridAreaSize] = useElementSize<HTMLDivElement>();
+  const screenSize = playSize ?? { width: window.innerWidth, height: window.innerHeight };
+  const landscape = isLandscape(screenSize);
+  const wheelDiameter = wheelSize(screenSize, {
+    rows: level.rows,
+    cols: level.cols,
+    extraChrome: tapMode ? TAP_CONTROLS_HEIGHT : 0,
+  });
+  const tileSize = gridAreaSize
+    ? fitTileSize(gridAreaSize, level.rows, level.cols)
+    : Math.min(56, Math.floor(320 / Math.max(level.rows, level.cols)));
 
   const wordsRemaining = level.words.length - state.foundWords.size;
 
+  const guideWord =
+    firstPlay && state.foundWords.size === 0 && !state.isComplete
+      ? pickGuideWord(
+          level.words.map((w) => w.word),
+          state.wheelLetters,
+        )
+      : null;
+
   return (
-    <div className={styles.play}>
-      <TopBar coins={coins} levelLabel={`Level ${level.index}`} />
+    <div ref={playRef} className={`${styles.play} ${landscape ? styles.landscape : ''}`}>
+      <TopBar
+        coins={coins}
+        levelLabel={dailyDate ? 'Daily puzzle' : `Level ${levelNumber}`}
+        onHome={onExit}
+      />
       {/* Screen-reader-only live region (Section 12): announces each result,
           e.g. "HEAD found. 2 words left.", without changing visible layout. */}
       <div aria-live="polite" className={styles.srOnly}>
         {revealArmed ? 'Reveal armed. Tap a tile to reveal its word.' : resultAnnouncement(state.lastResult, wordsRemaining)}
       </div>
-      <div className={styles.gridArea}>
-        <Grid
-          level={level}
-          grid={state.grid}
-          foundWords={state.foundWords}
-          revealedCells={state.revealedCells}
-          tileSize={tileSize}
-          // Additive: only meaningful while Reveal's tile-picker is armed.
-          onCellClick={revealArmed ? handleCellClick : undefined}
-          // Motion (HANDOVER 9.5): drives the "correct word flies in" /
-          // "repeat word pulses" tile animation for just this word, and the
-          // level-complete tile-flip wave.
-          justResult={
-            state.lastResult?.kind === 'found' || state.lastResult?.kind === 'repeat'
-              ? state.lastResult
-              : null
-          }
-          celebrateCompletion={state.isComplete}
-        />
-      </div>
-      {revealArmed && <p className={styles.revealHint}>Tap a tile to reveal its word.</p>}
-      <div className={styles.previewArea}>
-        <WordPreview word={displayWord} resultKind={displayResultKind} />
-      </div>
-      <div className={styles.wheelArea}>
-        <Wheel
-          letters={state.wheelLetters}
-          selection={state.selection}
-          onSelect={(index) => dispatch({ type: 'select', index })}
-          onSubmit={handleSubmit}
-          tapMode={tapMode}
-          onClear={() => dispatch({ type: 'clearSelection' })}
-          onShuffle={handleShuffle}
-        />
-      </div>
-      <HelperButtons
-        coins={coins}
-        onShuffle={handleShuffle}
-        onHint={handleHint}
-        onReveal={handleReveal}
-      />
-      <div className={styles.jarArea}>
-        <BonusJar />
+      {/* Portrait: grid above the controls. Landscape/desktop: grid on the
+          left, wheel column (pill, jar, wheel, helpers) on the right. */}
+      <div className={styles.board}>
+        <div ref={gridAreaRef} className={styles.gridArea}>
+          <Grid
+            level={level}
+            grid={state.grid}
+            foundWords={state.foundWords}
+            revealedCells={state.revealedCells}
+            tileSize={tileSize}
+            // Additive: only meaningful while Reveal's tile-picker is armed.
+            onCellClick={revealArmed ? handleCellClick : undefined}
+            // Motion (HANDOVER 9.5): drives the "correct word flies in" /
+            // "repeat word pulses" tile animation for just this word, and the
+            // level-complete tile-flip wave.
+            justResult={
+              state.lastResult?.kind === 'found' || state.lastResult?.kind === 'repeat'
+                ? state.lastResult
+                : null
+            }
+            celebrateCompletion={state.isComplete}
+          />
+        </div>
+        <div className={styles.controls}>
+          {revealArmed && <p className={styles.revealHint}>Tap a tile to reveal its word.</p>}
+          <div className={styles.previewArea}>
+            <div className={styles.jarArea}>
+              <BonusJar />
+            </div>
+            <WordPreview word={displayWord} resultKind={displayResultKind} />
+          </div>
+          <div ref={wheelAreaRef} className={styles.wheelArea}>
+            <Wheel
+              size={wheelDiameter}
+              letters={state.wheelLetters}
+              selection={state.selection}
+              onSelect={(index) => dispatch({ type: 'select', index })}
+              onSubmit={handleSubmit}
+              tapMode={tapMode}
+              onClear={() => dispatch({ type: 'clearSelection' })}
+              onShuffle={handleShuffle}
+            />
+          </div>
+          {guideWord && (
+            <FirstSwipeGuide
+              wheelLetters={state.wheelLetters}
+              word={guideWord}
+              wheelRef={wheelAreaRef}
+              tapMode={tapMode}
+              hidden={state.selection.length > 0}
+            />
+          )}
+          <HelperButtons
+            coins={coins}
+            onShuffle={handleShuffle}
+            onHint={handleHint}
+            onReveal={handleReveal}
+            revealArmed={revealArmed}
+          />
+        </div>
       </div>
     </div>
   );

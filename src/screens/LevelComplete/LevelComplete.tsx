@@ -4,20 +4,27 @@ import { LEVEL_COMPLETE_SUMMARY_SECONDS } from '../../motion/timings';
 import styles from './LevelComplete.module.css';
 
 export interface LevelCompleteProps {
-  levelIndex: number;
+  /** The player-facing level number: 1-based position across all chapters. */
+  levelNumber: number;
   coinsEarned: number;
   bonusWordsFound: number;
-  hasNext: boolean;
+  /** Set when the finished puzzle was the daily: the player's streak after finishing it. */
+  dailyStreak?: number;
+  /** "Next level" for a normal level; back to Home after the daily. */
   onNext: () => void;
+  /** Overrides the button text, e.g. "Back to chart" after replaying an old level. */
+  nextLabel?: string;
 }
 
 export function LevelComplete({
-  levelIndex,
+  levelNumber,
   coinsEarned,
   bonusWordsFound,
-  hasNext,
+  dailyStreak,
   onNext,
+  nextLabel,
 }: LevelCompleteProps) {
+  const isDaily = dailyStreak !== undefined;
   const reduceMotion = useReducedMotionPreference();
 
   // HANDOVER 9.5 "Level complete": tiles flip in a wave (Grid/Tile, played
@@ -33,7 +40,10 @@ export function LevelComplete({
       animate={animate}
       transition={{ duration: LEVEL_COMPLETE_SUMMARY_SECONDS, ease: 'easeOut' }}
     >
-      <h1 className={styles.title}>Level {levelIndex} done</h1>
+      <h1 className={styles.title}>
+        {isDaily ? 'Daily puzzle done' : `Level ${levelNumber} done`}
+      </h1>
+      {isDaily && dailyStreak > 0 && <p className={styles.streak}>{dailyStreak} day streak</p>}
       <div className={styles.stats}>
         <span className={styles.coins}>+{coinsEarned} coins</span>
         {bonusWordsFound > 0 && (
@@ -43,7 +53,7 @@ export function LevelComplete({
         )}
       </div>
       <button type="button" className={styles.nextButton} onClick={onNext}>
-        {hasNext ? 'Next level' : "That's every level so far"}
+        {nextLabel ?? (isDaily ? 'Back home' : 'Next level')}
       </button>
     </motion.div>
   );

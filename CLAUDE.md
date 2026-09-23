@@ -8,19 +8,21 @@ full design and build-phase spec this project follows.
 ```
 tidewords/
   data/
-    wordlists/            # raw word lists (not shipped) — common-roots.txt, generated-corpus.txt
-    blocklist.txt         # offensive/unfair/nonstandard words, one per line
+    wordlists/            # trimmed SCOWL en_GB + frequency ranks, not-targets list (not shipped)
+    blocklist.txt         # offensive/unfair words, applied to every tier and the dictionary
   scripts/
+    build-wordlists.ts    # rebuilds data/wordlists/ from the raw downloads (see its header)
     generate-levels.ts    # offline level generator (Node) — `npm run generate-levels`
     validate-levels.ts    # checks every level in public/levels/ — `npm run validate-levels`
-    lib/generator.ts       # crossword layout + generation algorithm
-    lib/wordlist.ts         # word-list expansion/filtering
+    lib/wordlist.ts        # builds the corpus from data/wordlists/
   public/
     levels/
       chapter-01.json ... chapter-05.json   # 100 generated levels, 20 per chapter
-    dictionary.json       # compact shipped word dictionary (not yet wired into runtime lookups)
+    dictionary.json       # shipped corpus: bonus-word lookups + endless level generation
     fonts/                # self-hosted Lexend, Young Serif, OpenDyslexic (woff2)
-    icons/                # PWA manifest icons (placeholder art)
+    icons/                # original compass-rose icon (SVG sources + rendered PNGs)
+  android/ ios/           # Capacitor native projects (`npm run cap:android` / `cap:ios`)
+  capacitor.config.ts
   src/
     game/                 # pure logic, no React, fully unit tested
       types.ts
@@ -31,18 +33,22 @@ tidewords/
       economy.ts
       completion.ts          # isLevelComplete / isCellFilled
       levelShape.ts           # fairness validator: every 2+ letter run is a target word
-      daily.ts                # deterministic daily-puzzle pick + streak calendar
+      daily.ts                # deterministic daily-puzzle pick, streaks, calendar
+      generator.ts            # crossword layout + generation (used offline and on-device)
+      dictionary.ts           # loads/caches public/dictionary.json
+      endless.ts              # deterministic on-device levels 101+
     state/
       profileStore.ts       # Zustand, persisted to localStorage as "tidewords:v1"
       levelReducer.ts         # active level state (useReducer)
     components/
-      Wheel/ Grid/ Tile/ WordPreview/ TopBar/ HelperButtons/ BonusJar/ Modal/
+      Wheel/ Grid/ Tile/ WordPreview/ TopBar/ HelperButtons/ BonusJar/ Modal/ FirstSwipeGuide/
     screens/
       Home/ Chart/ Play/ LevelComplete/ Daily/ Settings/
+      Play/layout.ts         # tile and wheel sizing for the space actually available
     audio/
       sounds.ts            # synthesised Web Audio effects + ambient loop, no bundled audio files
     haptics/
-      haptics.ts            # navigator.vibrate wrapper
+      haptics.ts            # native Capacitor haptics, navigator.vibrate on the web
     hooks/
       useReducedMotion.ts    # OS media query + settings.reducedMotion, combined
     motion/
@@ -52,7 +58,7 @@ tidewords/
       chapterThemes.css        # per-chapter [data-theme] colour overrides
       fonts.css                 # @font-face rules for the self-hosted fonts
       global.css
-    App.tsx                # screen routing (home/play/complete/settings/chart/daily)
+    App.tsx                # screen routing, progression, daily/replay side-play, endless levels
     main.tsx
   tests/
     e2e/                   # Playwright — `npm run test:e2e`
@@ -89,36 +95,40 @@ npm run format            # prettier --write .
 npm test                  # vitest run (unit tests)
 npm run test:watch        # vitest (watch mode)
 npm run test:e2e          # playwright test (5 scenarios × iPhone 13 / Pixel 5)
-npm run generate-levels   # regenerate all chapter JSON files
+npm run generate-levels   # regenerate all chapter JSON files and public/dictionary.json
 npm run validate-levels   # validate every level currently in public/levels/
+npm run cap:sync          # build, then copy the web app into the native projects
+npm run cap:android       # sync, then open Android Studio
+npm run cap:ios           # sync, then open Xcode (Mac only)
 ```
 
 ## Status
 
-Phases 1–4 (per `HANDOVER.md` section 16) are all built:
+Phases 1–4 (per `HANDOVER.md` section 16) are built, plus endless levels:
 
 - **Phase 1 (playable core):** `src/game` pure logic, Zustand profile store, level reducer,
   Wheel/Grid/Tile/WordPreview, Play + Level Complete screens.
-- **Phase 2 (feel and polish):** full design tokens, Framer Motion for every moment in section
-  9.5 (respecting reduced motion), synthesised sound effects + haptics (no bundled audio files),
-  Settings screen (all 7 toggles wired), tap mode + keyboard control on the wheel, a tile-picker
-  Reveal helper, BonusJar, and accessibility basics (live region, aria-labels, focus rings).
-- **Phase 3 (content):** `scripts/generate-levels.ts` procedurally generates every level — there
-  is no hand-picked level content anywhere in `public/levels/` (100 levels across 5 chapters, all
-  ≥5 letters/≥5 words per the corrected difficulty floor — see the "Update" note in HANDOVER.md
-  section 7.1). Chart (chapter map) and Daily puzzle/streak screens are built.
-- **Phase 4 (launch readiness):** PWA manifest + service worker with an update-ready prompt,
-  chapter packs precached/runtime-cached, self-hosted fonts (Lexend, Young Serif, OpenDyslexic),
-  5 Playwright e2e tests covering HANDOVER.md section 15's scenarios, placeholder PWA icons.
+- **Phase 2 (feel and polish):** design tokens (WCAG AA in normal and high contrast), Framer
+  Motion for every moment in section 9.5 (respecting reduced motion), synthesised sound effects,
+  haptics, Settings, tap mode + keyboard control, a tile-picker Reveal, BonusJar, the "You need N
+  coins" message, the first-launch swipe guide, and a responsive layout (grid left / wheel right in
+  landscape and on desktop).
+- **Phase 3 (content):** every level is generated — no hand-picked level content. 100 shipped
+  levels from a SCOWL en_GB corpus ranked by word frequency, with repetition control (no target
+  word in more than 5 levels, every level has bonus words). Any dictionary word counts as a bonus
+  word. Levels continue on the device past 100 (`src/game/endless.ts`). Chart and Daily screens;
+  the daily and Chart replays are played "on the side" and never move the player's progress.
+- **Phase 4 (launch readiness):** PWA manifest + service worker (app shell, first two chapters and
+  the dictionary precached), original icons, self-hosted fonts, Capacitor Android/iOS projects
+  with native haptics, and Playwright e2e tests for section 15's scenarios.
 
 `src/game/sampleLevel.ts` (the hand-checked HANDED fixture from HANDOVER.md section 6) is kept
 only as a unit-test fixture for `src/game`'s pure logic — it is never shipped as playable content.
 
-### Known follow-ups (not required for the game to work today)
+### Open decisions and follow-ups
 
-- `public/dictionary.json` is generated but not yet wired into `src/game/validate.ts`'s bonus-word
-  lookup (each level's own precomputed `bonusWords` array is what's actually used at runtime).
-- PWA icons are original flat placeholder art, not final illustrated icons.
-- No real Lighthouse run in this environment (manual bundle-size/asset checks only — see
-  CREDITS.md and the build output for current numbers).
-- Capacitor store builds (Phase 4, optional) are not started.
+- Final game name and the store app id (`capacitor.config.ts` uses the placeholder
+  `app.tidewords.game`, which can't change after the first store release).
+- Native builds need Android Studio / Xcode on the owner's machine (see README "Native builds").
+- No real Lighthouse run in this environment (manual bundle-size/asset checks only).
+- The daily streak only knows its most recent run, so the calendar strip lights that run only.

@@ -33,6 +33,25 @@ export interface WheelProps {
 }
 
 const DEFAULT_SIZE = 300;
+const MAX_LETTER_RADIUS = 32;
+/** Letter circle radius as a share of the gap between neighbouring letters. */
+const LETTER_GAP_SHARE = 0.4;
+/** Selected letters scale up 1.15x (Wheel.module.css) and need to stay in view. */
+const SELECTED_SCALE = 1.15;
+const EDGE_MARGIN = 3;
+
+/**
+ * Radius of the ring the letters sit on. Big wheels keep the original fixed
+ * 40px edge margin (room for a max-size selected letter); smaller wheels
+ * shrink that margin with the letters instead, so a responsive wheel spends
+ * its size on the letters rather than on empty padding.
+ */
+function ringRadius(center: number, count: number): number {
+  // gapBetweenLetters is linear in the radius, so this is "letter radius per px of ring".
+  const letterPerRing = LETTER_GAP_SHARE * gapBetweenLetters(count, 1);
+  const uncapped = (center - EDGE_MARGIN) / (1 + SELECTED_SCALE * letterPerRing);
+  return letterPerRing * uncapped >= MAX_LETTER_RADIUS ? center - 40 : uncapped;
+}
 
 export function Wheel({
   letters,
@@ -71,10 +90,13 @@ export function Wheel({
   );
 
   const center = size / 2;
-  const wheelRadius = center - 40;
+  const wheelRadius = ringRadius(center, letters.length);
   const positions = letterPositions(letters.length, wheelRadius);
   const hitR = hitRadius(letters.length, wheelRadius);
-  const letterVisualRadius = Math.min(32, gapBetweenLetters(letters.length, wheelRadius) * 0.4);
+  const letterVisualRadius = Math.min(
+    MAX_LETTER_RADIUS,
+    gapBetweenLetters(letters.length, wheelRadius) * LETTER_GAP_SHARE,
+  );
 
   // Shuffle motion (HANDOVER 9.5): give each letter tile a stable identity
   // that survives a shuffle, so it can glide from its old slot to its new

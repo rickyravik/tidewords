@@ -1,7 +1,10 @@
+import { currentStreak, todayDateString } from '../../game/daily';
 import { useProfileStore } from '../../state/profileStore';
 import styles from './Home.module.css';
 
 export interface HomeProps {
+  /** The current level's player-facing number: 1-based position across all chapters. */
+  levelNumber: number;
   /** Opens Play on the player's current level (within one tap, per Section 10). */
   onPlay: () => void;
   onSettings: () => void;
@@ -9,24 +12,10 @@ export interface HomeProps {
   onDaily: () => void;
 }
 
-/**
- * Best-effort level number for the "Play level N" button, parsed from ids
- * like "c01-l001". This is a placeholder heuristic: Home has no chapter/level
- * catalogue to look up yet (the level generator and Chart screen are being
- * built separately), so it only has `currentLevelId` from the profile store.
- */
-function levelNumberFromId(id: string): number | null {
-  const match = /(\d+)$/.exec(id);
-  return match ? Number(match[1]) : null;
-}
-
-export function Home({ onPlay, onSettings, onChart, onDaily }: HomeProps) {
-  const currentLevelId = useProfileStore((s) => s.currentLevelId);
+export function Home({ levelNumber, onPlay, onSettings, onChart, onDaily }: HomeProps) {
   const completedCount = useProfileStore((s) => s.completedLevelIds.length);
-  const streak = useProfileStore((s) => s.daily.streak);
-
-  const levelNumber = levelNumberFromId(currentLevelId);
-  const playLabel = levelNumber !== null ? `Play level ${levelNumber}` : 'Play';
+  const daily = useProfileStore((s) => s.daily);
+  const streak = currentStreak(daily, todayDateString());
 
   return (
     <div className={styles.home}>
@@ -52,7 +41,7 @@ export function Home({ onPlay, onSettings, onChart, onDaily }: HomeProps) {
       </div>
 
       <button type="button" className={styles.playButton} onClick={onPlay}>
-        {playLabel}
+        Play level {levelNumber}
       </button>
 
       <button type="button" className={styles.dailyCard} onClick={onDaily}>

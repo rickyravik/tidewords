@@ -1,3 +1,7 @@
+.helpers {
+  position: relative;
+}
+
 .row {
   display: flex;
   justify-content: center;
@@ -17,9 +21,35 @@
   cursor: pointer;
 }
 
-.button:disabled {
-  opacity: 0.4;
+.button:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+/* Greyed out but still readable (text 5.8:1 on deep sea) and still
+   tappable: it explains the shortfall instead of spending coins. A hollow
+   dashed outline, not just dimming, so the state is not colour alone. */
+.button.unaffordable {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--tile-border);
+  color: color-mix(in srgb, var(--chalk) 60%, var(--deep-sea));
   cursor: default;
+}
+
+:global(:root[data-high-contrast='true']) .button {
+  box-shadow: inset 0 0 0 2px var(--chalk);
+}
+
+:global(:root[data-high-contrast='true']) .button.unaffordable {
+  background: transparent;
+  box-shadow: none;
+  outline: 2px dashed var(--chalk);
+  outline-offset: -2px;
+}
+
+:global(:root[data-high-contrast='true']) .button.unaffordable:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
 }
 
 .cost {
@@ -27,4 +57,50 @@
   font-size: 0.75em;
   font-weight: 400;
   opacity: 0.8;
+}
+
+.button.unaffordable .cost {
+  opacity: 1;
+}
+
+.button[aria-pressed='true'] {
+  background: var(--brass);
+  color: var(--deep-sea);
+}
+
+/* Floats just above the buttons so it never pushes the layout around. */
+.noticeRegion {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.notice {
+  max-width: 320px;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--chalk);
+  color: var(--deep-sea);
+  font-size: 0.9rem;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 4px 16px color-mix(in srgb, var(--deep-sea) 60%, transparent);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
