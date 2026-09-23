@@ -15,7 +15,7 @@
     "preview": "vite preview --host",
     "generate-levels": "tsx scripts/generate-levels.ts",
     "validate-levels": "tsx scripts/validate-levels.ts",
-    "deploy": "npm run build && wrangler pages deploy dist"
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "framer-motion": "^13.4.1",
