@@ -50,6 +50,8 @@ export interface SaveData {
    */
   dailyProgress: DailyProgress | null;
   settings: Settings;
+  /** Whether the first-launch UI tour (grid, jar, helper buttons) has been shown. */
+  hasSeenUiTour: boolean;
 }
 
 export interface DailyProgress {
@@ -69,6 +71,7 @@ const INITIAL_SAVE: SaveData = {
   daily: { lastCompletedDate: null, streak: 0 },
   dailyProgress: null,
   settings: DEFAULT_SETTINGS,
+  hasSeenUiTour: false,
 };
 
 interface ProfileActions {
@@ -81,6 +84,7 @@ interface ProfileActions {
   /** Pays the daily reward (+ streak bonus) once per date; returns the coins paid. */
   completeDailyPuzzle: (date: string) => number;
   updateSettings: (patch: Partial<Settings>) => void;
+  markUiTourSeen: () => void;
   resetProgress: () => void;
 }
 
@@ -168,6 +172,8 @@ export const useProfileStore = create<ProfileStore>()(
       },
 
       updateSettings: (patch) => set((state) => ({ settings: { ...state.settings, ...patch } })),
+
+      markUiTourSeen: () => set({ hasSeenUiTour: true }),
 
       resetProgress: () => set(INITIAL_SAVE),
     }),

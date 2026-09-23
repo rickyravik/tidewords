@@ -1,0 +1,93 @@
+/* Viewport-fixed layer (portalled to <body>). Unlike FirstSwipeGuide's
+   overlay this one is modal: it takes the tap that advances the tour, so
+   the game underneath stays untouched until the player has read each step. */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  cursor: pointer;
+}
+
+.spotlight {
+  position: fixed;
+  border-radius: 14px;
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+  /* The huge spread dims the whole viewport; the box's own area (this
+     element's border-box) is left untouched, which is the "hole". */
+  box-shadow: 0 0 0 9999px rgba(15, 42, 61, 0.82);
+  pointer-events: none;
+}
+
+.card {
+  position: fixed;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--tide);
+  color: var(--chalk);
+  font-family: var(--font-ui);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  cursor: default;
+}
+
+.title {
+  margin: 0 0 4px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.body {
+  margin: 0 0 10px;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  opacity: 0.92;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress {
+  flex: 1;
+  font-size: 0.75rem;
+  opacity: 0.75;
+}
+
+.skip,
+.next {
+  min-height: 40px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: none;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.skip {
+  background: transparent;
+  color: var(--chalk);
+  opacity: 0.8;
+}
+
+.next {
+  background: var(--brass);
+  color: var(--deep-sea);
+}
+
+.skip:focus-visible,
+.next:focus-visible {
+  outline: 2px solid var(--sea-glass);
+  outline-offset: 2px;
+}
+
+:global(:root[data-high-contrast='true']) .spotlight {
+  outline-width: 3px;
+  box-shadow: 0 0 0 9999px rgba(15, 42, 61, 0.94);
+}
+
+:global(:root[data-high-contrast='true']) .card {
+  box-shadow: 0 0 0 2px var(--chalk);
+}

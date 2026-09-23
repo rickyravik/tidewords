@@ -70,6 +70,7 @@ export function HelperButtons({
     return (
       <button
         type="button"
+        data-tour={helper}
         className={`${styles.button} ${blocked ? styles.unaffordable : ''}`}
         // aria-disabled (not `disabled`) so the tap still arrives and can
         // explain the coin shortfall.
@@ -107,7 +108,7 @@ export function HelperButtons({
         </AnimatePresence>
       </div>
       <div className={styles.row}>
-        <button type="button" className={styles.button} onClick={onShuffle}>
+        <button type="button" data-tour="shuffle" className={styles.button} onClick={onShuffle}>
           Shuffle
           <span className={styles.cost}>Free</span>
         </button>

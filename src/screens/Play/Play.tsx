@@ -13,6 +13,8 @@ import { isFirstPlay, pickGuideWord } from '../../components/FirstSwipeGuide/fir
 import { Grid } from '../../components/Grid/Grid';
 import { HelperButtons } from '../../components/HelperButtons/HelperButtons';
 import { TopBar } from '../../components/TopBar/TopBar';
+import { UiTour } from '../../components/UiTour/UiTour';
+import { UI_TOUR_STEPS } from '../../components/UiTour/steps';
 import { Wheel } from '../../components/Wheel/Wheel';
 import { WordPreview } from '../../components/WordPreview/WordPreview';
 import { HINT_COST, LEVEL_COMPLETE_COINS, REVEAL_COST } from '../../game/economy';
@@ -84,6 +86,8 @@ export function Play({ level, levelNumber, dailyDate, onComplete, onExit }: Play
   const completeLevel = useProfileStore((s) => s.completeLevel);
   const saveDailyProgress = useProfileStore((s) => s.saveDailyProgress);
   const completeDailyPuzzle = useProfileStore((s) => s.completeDailyPuzzle);
+  const hasSeenUiTour = useProfileStore((s) => s.hasSeenUiTour);
+  const markUiTourSeen = useProfileStore((s) => s.markUiTourSeen);
   const soundOn = useProfileStore((s) => s.settings.sound);
   const musicOn = useProfileStore((s) => s.settings.music);
   const hapticsOn = useProfileStore((s) => s.settings.haptics);
@@ -114,6 +118,10 @@ export function Play({ level, levelNumber, dailyDate, onComplete, onExit }: Play
   // First-launch hand (HANDOVER 10): decided once on mount from the saved
   // profile, then removed after the first correct word (see guideWord below).
   const [firstPlay] = useState(() => !dailyDate && isFirstPlay(useProfileStore.getState()));
+  // UI tour (grid, jar, helper buttons) runs before the swipe-guide hand demo
+  // below, so a first-time player reads what things are before being shown
+  // how to swipe. Never shown on the daily, same as the swipe guide.
+  const [tourActive, setTourActive] = useState(() => !dailyDate && !hasSeenUiTour);
   const wheelAreaRef = useRef<HTMLDivElement>(null);
 
   const bonusWordsFoundSet = useMemo(() => new Set(bonusWordsFound), [bonusWordsFound]);
@@ -297,7 +305,7 @@ export function Play({ level, levelNumber, dailyDate, onComplete, onExit }: Play
       {/* Portrait: grid above the controls. Landscape/desktop: grid on the
           left, wheel column (pill, jar, wheel, helpers) on the right. */}
       <div className={styles.board}>
-        <div ref={gridAreaRef} className={styles.gridArea}>
+        <div ref={gridAreaRef} className={styles.gridArea} data-tour="grid">
           <Grid
             level={level}
             grid={state.grid}
@@ -320,7 +328,7 @@ export function Play({ level, levelNumber, dailyDate, onComplete, onExit }: Play
         <div className={styles.controls}>
           {revealArmed && <p className={styles.revealHint}>Tap a tile to reveal its word.</p>}
           <div className={styles.previewArea}>
-            <div className={styles.jarArea}>
+            <div className={styles.jarArea} data-tour="jar">
               <BonusJar />
             </div>
             <WordPreview word={displayWord} resultKind={displayResultKind} />
@@ -337,7 +345,7 @@ export function Play({ level, levelNumber, dailyDate, onComplete, onExit }: Play
               onShuffle={handleShuffle}
             />
           </div>
-          {guideWord && (
+          {guideWord && !tourActive && (
             <FirstSwipeGuide
               wheelLetters={state.wheelLetters}
               word={guideWord}
@@ -355,6 +363,15 @@ export function Play({ level, levelNumber, dailyDate, onComplete, onExit }: Play
           />
         </div>
       </div>
+      {tourActive && (
+        <UiTour
+          steps={UI_TOUR_STEPS}
+          onFinish={() => {
+            markUiTourSeen();
+            setTourActive(false);
+          }}
+        />
+      )}
     </div>
   );
 }
