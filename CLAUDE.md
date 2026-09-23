@@ -92,7 +92,7 @@ npm run lint              # eslint .
 npm run format            # prettier --write .
 npm test                  # vitest run (unit tests)
 npm run test:watch        # vitest (watch mode)
-npm run test:e2e          # playwright test (5 scenarios × iPhone 13 / Pixel 5)
+npm run test:e2e          # playwright test (5 scenarios × iPhone 13, Pixel 5, Galaxy S24, Galaxy A55, Moto G4)
 npm run generate-levels   # regenerate all chapter JSON files and public/dictionary.json
 npm run validate-levels   # validate every level currently in public/levels/
 ```

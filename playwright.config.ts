@@ -30,6 +30,20 @@ export default defineConfig({
       name: 'Pixel 5',
       use: { ...devices['Pixel 5'] },
     },
+    // A spread of Android sizes: a current Samsung, a large budget phone,
+    // and a small, older phone.
+    {
+      name: 'Galaxy S24',
+      use: { ...devices['Galaxy S24'] },
+    },
+    {
+      name: 'Galaxy A55',
+      use: { ...devices['Galaxy A55'] },
+    },
+    {
+      name: 'Moto G4',
+      use: { ...devices['Moto G4'] },
+    },
   ],
   webServer: {
     command: `npm run dev -- --port ${PORT} --strictPort`,
