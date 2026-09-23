@@ -20,8 +20,11 @@ function invalidWord(): string {
   return word;
 }
 
+// hasSeenUiTour: true by default so the UI tour (which runs first on a
+// genuine first play, see UiTour.test.tsx) doesn't mask the swipe guide here.
 function seed(patch: Partial<SaveData> = {}, settings: Partial<SaveData['settings']> = {}) {
   useProfileStore.setState({
+    hasSeenUiTour: true,
     ...patch,
     settings: { ...useProfileStore.getState().settings, sound: false, haptics: false, ...settings },
   });
